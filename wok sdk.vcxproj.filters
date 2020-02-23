@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="render">
+      <UniqueIdentifier>{1018c079-1f2e-4329-b2ee-065b2b32ac78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sdk">
+      <UniqueIdentifier>{c805af4b-b941-4476-a455-444837a839d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utilities">
+      <UniqueIdentifier>{4653f98a-3e83-4410-b60b-6ee0cbe0bbbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="netvar_manager">
+      <UniqueIdentifier>{dae58dbd-5ea8-49ef-b2da-480ebfc8053d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="interfaces">
+      <UniqueIdentifier>{acf46bbc-f4d2-4660-8d5f-fd42ff6b263e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="hooks">
+      <UniqueIdentifier>{1056f6dd-4628-49c7-ab2c-cbfa72771565}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="hooks\functions">
+      <UniqueIdentifier>{f021f058-fedd-4a2c-8fd5-1c3207453604}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="features">
+      <UniqueIdentifier>{e04f48e8-f83e-44f1-b256-7653b387731f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sdk\datatypes">
+      <UniqueIdentifier>{442988b6-22c7-4d0b-82a5-26ffab97ad95}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>
+      </Filter>
+    </ClCompile>
+    <ClCompile Include="init.cpp" />
+    <ClCompile Include="utils\netvars\netvars.cpp">
+      <Filter>netvar_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\obfuscation\fnv1a.cpp">
+      <Filter>utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\math\math.cpp" />
+    <ClCompile Include="hooks\hooks.cpp" />
+    <ClCompile Include="hooks\functions\paint.cpp" />
+    <ClCompile Include="utils\render\render.cpp" />
+    <ClCompile Include="hooks\other\c_cs_player.cpp" />
+    <ClCompile Include="hooks\other\convar.cpp" />
+    <ClCompile Include="globals.cpp" />
+    <ClCompile Include="hooks\functions\create_move.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="sdk\CBaseHandle.h">
+      <Filter>sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="common_includes.h">
+    </ClInclude>
+    <ClInclude Include="utils\utils.h">
+      <Filter>utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\definitions.h" />
+    <ClInclude Include="sdk\datatypes\Vector.h" />
+    <ClInclude Include="sdk\interfaces\IBaseClientDll.h" />
+    <ClInclude Include="sdk\sdk.h" />
+    <ClInclude Include="sdk\entity_classes.h" />
+    <ClInclude Include="utils\netvars\datamap.h">
+      <Filter>netvar_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\netvars\netvars.h">
+      <Filter>netvar_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\obfuscation\obfuscation.h">
+      <Filter>utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\obfuscation\fnv1a.h">
+      <Filter>utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\datatypes\CUtlVector.h" />
+    <ClInclude Include="sdk\datatypes\QAngle.h" />
+    <ClInclude Include="sdk\datatypes\matrix3x4_t.h" />
+    <ClInclude Include="sdk\other\IClientEntity.h" />
+    <ClInclude Include="sdk\other\IClientNetworkable.h" />
+    <ClInclude Include="sdk\other\IClientRenderable.h" />
+    <ClInclude Include="sdk\other\IClientThinkable.h" />
+    <ClInclude Include="sdk\other\IClientUnknown.h" />
+    <ClInclude Include="sdk\other\CBaseHandle.h" />
+    <ClInclude Include="sdk\interfaces\IClientEntityList.h" />
+    <ClInclude Include="sdk\other\ClientClass.h" />
+    <ClInclude Include="sdk\interfaces\IVEngineClient.h" />
+    <ClInclude Include="sdk\datatypes\Color.h" />
+    <ClInclude Include="sdk\datatypes\VMatrix.h" />
+    <ClInclude Include="utils\math\math.h" />
+    <ClInclude Include="sdk\interfaces\IVModelInfo.h" />
+    <ClInclude Include="sdk\interfaces\ISurface.h" />
+    <ClInclude Include="sdk\datatypes\Vector2D.h" />
+    <ClInclude Include="utils\memory\memory.h" />
+    <ClInclude Include="hooks\hooks.h" />
+    <ClInclude Include="utils\memory\hook.h" />
+    <ClInclude Include="sdk\entity_structs.h" />
+    <ClInclude Include="sdk\interfaces\IVEngineVGui.h" />
+    <ClInclude Include="utils\render\render.h" />
+    <ClInclude Include="singleton.h" />
+    <ClInclude Include="sdk\interfaces\IClientMode.h" />
+    <ClInclude Include="sdk\interfaces\CClientState.h" />
+    <ClInclude Include="sdk\interfaces\CGlobalVarsBase.h" />
+    <ClInclude Include="globals.h" />
+    <ClInclude Include="sdk\other\CRC32_t.h" />
+    <ClInclude Include="sdk\interfaces\CInput.h" />
+    <ClInclude Include="sdk\interfaces\IPrediction.h" />
+    <ClInclude Include="sdk\interfaces\IMoveHelper.h" />
+    <ClInclude Include="sdk\interfaces\IGameMovement.h" />
+    <ClInclude Include="sdk\interfaces\IMemAlloc.h" />
+    <ClInclude Include="sdk\interfaces\IVDebugOverlay.h" />
+    <ClInclude Include="sdk\interfaces\ICvar.h" />
+    <ClInclude Include="sdk\other\ConVar.h" />
+    <ClInclude Include="sdk\interfaces\IGameEventManager.h" />
+    <ClInclude Include="sdk\interfaces\IEngineTrace.h" />
+    <ClInclude Include="sdk\other\ITraceFilter.h" />
+    <ClInclude Include="sdk\interfaces\IPhysicsSurfaceProps.h" />
+    <ClInclude Include="sdk\interfaces\IInputSystem.h" />
+    <ClInclude Include="sdk\interfaces\IClientLeafSystem.h" />
+    <ClInclude Include="sdk\interfaces\CGameRules.h" />
+    <ClInclude Include="sdk\interfaces\IMDLCache.h" />
+    <ClInclude Include="sdk\interfaces\IVModelRender.h" />
+    <ClInclude Include="sdk\other\IMaterial.h" />
+    <ClInclude Include="sdk\interfaces\IMaterialSystem.h" />
+    <ClInclude Include="sdk\interfaces\IVRenderView.h" />
+    <ClInclude Include="sdk\interfaces\CGlowObjectManager.h" />
+    <ClInclude Include="sdk\interfaces\IViewRenderBeams.h" />
+    <ClInclude Include="sdk\other\IMaterialVar.h" />
+  </ItemGroup>
+</Project>

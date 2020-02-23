@@ -1,0 +1,10 @@
+#pragma once
+#include <Windows.h>
+#include <stdint.h>
+#include <vector>
+#include <thread>
+#include <chrono>
+#include <stdexcept>
+#include <unordered_map>
+#include <fstream>
+#include <TlHelp32.h>
