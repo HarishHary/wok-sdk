@@ -77,7 +77,7 @@ public:
 };
 
 #define concat_impl(x, y) x##y
-#define concat(x, y) concat_impl(x, y)
+#define concat_(x, y) concat_impl(x, y)
 
 #define _(s) xorstr<sizeof(s), random::_char<__COUNTER__>::value>(s, std::make_index_sequence<sizeof(s)>()).dec().c_str()
 #define _ot(s) xorstr<sizeof(s), random::_char<__COUNTER__>::value>(s, std::make_index_sequence<sizeof(s)>()).ot().c_str()
