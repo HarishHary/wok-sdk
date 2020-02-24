@@ -26,6 +26,7 @@
 #include "other/CRC32_t.h"
 #include "other/IMaterial.h"
 #include "other/IMaterialVar.h"
+#include "other/INetChannelInfo.h"
 
 #include "interfaces/IClientEntityList.h"
 #include "other/ITraceFilter.h"

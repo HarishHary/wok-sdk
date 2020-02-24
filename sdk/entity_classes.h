@@ -230,7 +230,7 @@ public:
 	VFUNC(update_client_side_animation(), 223, void(__thiscall*)(void*));
 };
 
-class C_BaseCombatWeapon : public C_BaseEntity {
+class C_BaseCombatWeapon : public C_BaseAttributableItem, public C_BaseEntity {
 public:
 	VFUNC(get_cs_weapon_data(), 459, CCSWeaponData*(__thiscall*)(void*));
 	VFUNC(get_inaccuracy(), 481, float(__thiscall*)(void*));
