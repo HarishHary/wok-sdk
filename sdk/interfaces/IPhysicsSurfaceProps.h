@@ -66,4 +66,4 @@ public:
 	virtual void SetWorldMaterialIndexTable(int *pMapArray, int mapSize) = 0;
 	virtual void GetPhysicsParameters(int surfaceDataIndex, surfacephysicsparams_t *pParamsOut) const = 0;
 };
-extern IPhysicsSurfaceProps* g_pSurfaceProps;
+extern IPhysicsSurfaceProps* g_pSurfaceData;
