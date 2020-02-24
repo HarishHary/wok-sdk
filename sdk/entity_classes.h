@@ -2,9 +2,9 @@
 
 class IKContext {
 public:
-	void init(void* hdr, Vector& angles, Vector& origin, float curtime, int framecount, int bone_mask) {
+	void init(void* hdr, QAngle& angles, Vector& origin, float curtime, int framecount, int bone_mask) {
 		static const auto init = SIG("client_panorama.dll", "55 8B EC 83 EC ? 8B 45 ? 56 57 8B F9 8D 8F ? ? ? ?");
-		typedef void(__thiscall* fn) (IKContext*, void*, Vector&, Vector&, float, int, int);
+		typedef void(__thiscall* fn) (IKContext*, void*, QAngle&, Vector&, float, int, int);
 		return reinterpret_cast<fn>(init)(this, hdr, angles, origin, curtime, framecount, bone_mask);
 	}
 	void update_targets(Vector* pos, Quaternion* q, matrix3x4_t* bone_array, uint8_t* computed) {
