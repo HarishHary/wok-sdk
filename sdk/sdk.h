@@ -23,7 +23,8 @@
 #include "../utils/utils.h"
 
 #include "other/ConVar.h"
-#include "other/CRC32_t.h"
+#include "other/checksum_crc.h"
+#include "other/checksum_md5.h"
 #include "other/IMaterial.h"
 #include "other/IMaterialVar.h"
 #include "other/INetChannelInfo.h"
