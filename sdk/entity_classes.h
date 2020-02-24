@@ -238,7 +238,7 @@ public:
 	VFUNC(update_client_side_animation(), 223, void(__thiscall*)(void*));
 };
 
-class C_BaseCombatWeapon : public C_BaseAttributableItem, public C_BaseEntity {
+class C_BaseCombatWeapon : public C_BaseAttributableItem {
 public:
 	VFUNC(get_inaccuracy(), 481, float(__thiscall*)(void*));
 	VFUNC(get_spread(), 451, float(__thiscall*)(void*));
@@ -262,7 +262,7 @@ public:
 
 		return g_pWeaponSystem->GetWeaponData(get_item_definition_index());
 	}
-	
+
 	float get_standing_accuracy() {
 		auto max_speed = (get_zoom_level() > 0) ? get_cs_weapon_data()->flMaxSpeedAlt : get_cs_weapon_data()->flMaxSpeed;
 		return max_speed / 3.f;
