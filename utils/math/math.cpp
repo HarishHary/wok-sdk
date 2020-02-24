@@ -447,7 +447,7 @@ void math::angle_vectors(const QAngle& angles, Vector *forward, Vector *right, V
 	}
 }
 
-float math::get_fov(const Vector& view, const QAngle& angle) {
+float math::get_fov(const QAngle& view, const QAngle& angle) {
 	Vector ang, aim;
 	angle_vectors(view, &aim);
 	angle_vectors(angle, &ang);

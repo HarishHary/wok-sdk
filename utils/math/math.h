@@ -31,7 +31,7 @@ public:
 	static Vector vector_rotate(const Vector& in1, const Vector& in2);
 	static void vector_i_rotate(const Vector& in1, const matrix3x4_t& in2, Vector& out);
 	static void angle_vectors(const QAngle& angles, Vector *forward, Vector *right = nullptr, Vector *up = nullptr);
-	static float get_fov(const Vector& view, const QAngle& angle);
+	static float get_fov(const QAngle& view, const QAngle& angle);
 	static Vector make_vector(QAngle angle);
 	static bool is_behind_smoke(Vector src, Vector point);
 	static float angle_diff(float dest, float src);
