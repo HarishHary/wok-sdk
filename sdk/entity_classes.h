@@ -102,7 +102,14 @@ class C_BaseCombatCharacter : public C_BaseEntity {
 public:
 	NETVAR(get_weapons(), CBaseHandle, _("DT_BaseCombatCharacter"), _("m_hMyWeapons"));
 	NETVAR(get_wearables(), CBaseHandle, _("DT_BaseCombatCharacter"), _("m_hMyWearables"));
-	NETVAR(get_active_weapon(), CBaseHandle, _("DT_BaseCombatCharacter"), _("m_hActiveWeapon"));
+	NETVAR(get_active_weapon_handle(), CBaseHandle, _("DT_BaseCombatCharacter"), _("m_hActiveWeapon"));
+
+	C_BaseCombatWeapon* get_weapon() { 
+		if (!get_active_weapon_handle().IsValid()) 
+			return nullptr; 
+
+		return reinterpret_cast<C_BaseCombatWeapon*>(g_pEntityList->GetClientEntityFromHandle(get_active_weapon_handle()));
+	}
 };
 
 class C_BaseAttributableItem : public C_BaseEntity {
@@ -125,6 +132,7 @@ public:
 	DATAMAP(get_move_type(), int, _("m_MoveType"));
 	DATAMAP(get_next_attack(), float, _("m_flNextAttack"));
 	
+	NETVAR(get_flags(), int, _("DT_BasePlayer"), _("m_fFlags"));
 	NETVAR(get_vehicle(), CBaseHandle, _("DT_BasePlayer"), _("m_hVehicle"));
 	NETVAR(get_water_level(), int, _("DT_BasePlayer"), _("m_nWaterLevel"));
 	NETVAR(get_next_think_tick(), int, _("DT_BasePlayer"), _("localdata"), _("m_nNextThinkTick"));

@@ -136,6 +136,10 @@
 // Note: IVEngineClient::ClientCmd_Unrestricted can run any client command.
 #define FCVAR_MATERIAL_THREAD_MASK		(FCVAR_RELOAD_MATERIALS|FCVAR_RELOAD_TEXTURES|FCVAR_MATERIAL_SYSTEM_THREAD)	
 
+#define FLOW_OUTGOING	0		
+#define FLOW_INCOMING	1
+#define MAX_FLOWS		2		// in & out
+
 #define DAMAGE_NO			        0
 #define DAMAGE_EVENTS_ONLY	        1	
 #define DAMAGE_YES					2
