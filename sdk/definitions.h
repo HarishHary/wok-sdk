@@ -73,6 +73,69 @@
 #define HITBOX_LEFT_LOWER_ARM		18
 #define HITBOX_MAX					19
 
+#define TEXTURE_GROUP_LIGHTMAP						"Lightmaps"
+#define TEXTURE_GROUP_WORLD							"World textures"
+#define TEXTURE_GROUP_MODEL							"Model textures"
+#define TEXTURE_GROUP_VGUI							"VGUI textures"
+#define TEXTURE_GROUP_PARTICLE						"Particle textures"
+#define TEXTURE_GROUP_DECAL							"Decal textures"
+#define TEXTURE_GROUP_SKYBOX						"SkyBox textures"
+#define TEXTURE_GROUP_CLIENT_EFFECTS				"ClientEffect textures"
+#define TEXTURE_GROUP_OTHER							"Other textures"
+#define TEXTURE_GROUP_PRECACHED						"Precached"
+#define TEXTURE_GROUP_CUBE_MAP						"CubeMap textures"
+#define TEXTURE_GROUP_RENDER_TARGET					"RenderTargets"
+#define TEXTURE_GROUP_UNACCOUNTED					"Unaccounted textures"
+#define TEXTURE_GROUP_STATIC_INDEX_BUFFER			"Static Indices"
+#define TEXTURE_GROUP_STATIC_VERTEX_BUFFER_DISP		"Displacement Verts"
+#define TEXTURE_GROUP_STATIC_VERTEX_BUFFER_COLOR	"Lighting Verts"
+#define TEXTURE_GROUP_STATIC_VERTEX_BUFFER_WORLD	"World Verts"
+#define TEXTURE_GROUP_STATIC_VERTEX_BUFFER_MODELS	"Model Verts"
+#define TEXTURE_GROUP_STATIC_VERTEX_BUFFER_OTHER	"Other Verts"
+#define TEXTURE_GROUP_DYNAMIC_INDEX_BUFFER			"Dynamic Indices"
+#define TEXTURE_GROUP_DYNAMIC_VERTEX_BUFFER			"Dynamic Verts"
+#define TEXTURE_GROUP_DEPTH_BUFFER					"DepthBuffer"
+#define TEXTURE_GROUP_VIEW_MODEL					"ViewModel"
+#define TEXTURE_GROUP_PIXEL_SHADERS					"Pixel Shaders"
+#define TEXTURE_GROUP_VERTEX_SHADERS				"Vertex Shaders"
+#define TEXTURE_GROUP_RENDER_TARGET_SURFACE			"RenderTarget Surfaces"
+#define TEXTURE_GROUP_MORPH_TARGETS					"Morph Targets"
+
+#define FCVAR_UNREGISTERED				(1<<0)	// If this is set, don't add to linked list, etc.
+#define FCVAR_DEVELOPMENTONLY			(1<<1)	// Hidden in released products. Flag is removed automatically if ALLOW_DEVELOPMENT_CVARS is defined.
+#define FCVAR_GAMEDLL					(1<<2)	// defined by the game DLL
+#define FCVAR_CLIENTDLL					(1<<3)  // defined by the client DLL
+#define FCVAR_HIDDEN					(1<<4)	// Hidden. Doesn't appear in find or autocomplete. Like DEVELOPMENTONLY, but can't be compiled out.
+
+#define FCVAR_PROTECTED					(1<<5)  // It's a server cvar, but we don't send the data since it's a password, etc.  Sends 1 if it's not bland/zero, 0 otherwise as value
+#define FCVAR_SPONLY					(1<<6)  // This cvar cannot be changed by clients connected to a multiplayer server.
+#define	FCVAR_ARCHIVE					(1<<7)	// set to cause it to be saved to vars.rc
+#define	FCVAR_NOTIFY					(1<<8)	// notifies players when changed
+#define	FCVAR_USERINFO					(1<<9)	// changes the client's info string
+#define FCVAR_CHEAT						(1<<14) // Only useable in singleplayer / debug / multiplayer & sv_cheats
+
+#define FCVAR_PRINTABLEONLY				(1<<10)  // This cvar's string cannot contain unprintable characters ( e.g., used for player name etc ).
+#define FCVAR_UNLOGGED					(1<<11)  // If this is a FCVAR_SERVER, don't log changes to the log file / console if we are creating a log
+#define FCVAR_NEVER_AS_STRING			(1<<12)  // never try to print that cvar
+
+#define FCVAR_REPLICATED				(1<<13)	// server setting enforced on clients, TODO rename to FCAR_SERVER at some time
+#define FCVAR_DEMO						(1<<16)  // record this cvar when starting a demo file
+#define FCVAR_DONTRECORD				(1<<17)  // don't record these command in demofiles
+#define FCVAR_RELOAD_MATERIALS			(1<<20)	// If this cvar changes, it forces a material reload
+#define FCVAR_RELOAD_TEXTURES			(1<<21)	// If this cvar changes, if forces a texture reload
+
+#define FCVAR_NOT_CONNECTED				(1<<22)	// cvar cannot be changed by a client that is connected to a server
+#define FCVAR_MATERIAL_SYSTEM_THREAD	(1<<23)	// Indicates this cvar is read from the material system thread
+#define FCVAR_ARCHIVE_XBOX				(1<<24) // cvar written to config.cfg on the Xbox
+
+#define FCVAR_ACCESSIBLE_FROM_THREADS	(1<<25)	// used as a debugging tool necessary to check material system thread convars
+
+#define FCVAR_SERVER_CAN_EXECUTE		(1<<28)// the server is allowed to execute this command on clients via ClientCommand/NET_StringCmd/CBaseClientState::ProcessStringCmd.
+#define FCVAR_SERVER_CANNOT_QUERY		(1<<29)// If this is set, then the server is not allowed to query this cvar's value (via IServerPluginHelpers::StartQueryCvarValue).
+#define FCVAR_CLIENTCMD_CAN_EXECUTE		(1<<30)	// IVEngineClient::ClientCmd is allowed to execute this command. 
+// Note: IVEngineClient::ClientCmd_Unrestricted can run any client command.
+#define FCVAR_MATERIAL_THREAD_MASK		(FCVAR_RELOAD_MATERIALS|FCVAR_RELOAD_TEXTURES|FCVAR_MATERIAL_SYSTEM_THREAD)	
+
 #define DAMAGE_NO			        0
 #define DAMAGE_EVENTS_ONLY	        1	
 #define DAMAGE_YES					2
@@ -114,11 +177,11 @@
 #define CHAR_TEX_PLASTIC	'L'
 #define CHAR_TEX_CARDBOARD	'U'
 
-#define   DISPSURF_FLAG_SURFACE           (1<<0)
-#define   DISPSURF_FLAG_WALKABLE          (1<<1)
-#define   DISPSURF_FLAG_BUILDABLE         (1<<2)
-#define   DISPSURF_FLAG_SURFPROP1         (1<<3)
-#define   DISPSURF_FLAG_SURFPROP2         (1<<4)
+#define DISPSURF_FLAG_SURFACE           (1<<0)
+#define DISPSURF_FLAG_WALKABLE          (1<<1)
+#define DISPSURF_FLAG_BUILDABLE         (1<<2)
+#define DISPSURF_FLAG_SURFPROP1         (1<<3)
+#define DISPSURF_FLAG_SURFPROP2         (1<<4)
 
 // NOTE: These are stored in a short in the engine now.  Don't use more than 16 bits
 #define	SURF_LIGHT		0x0001		// value will hold the light strength
