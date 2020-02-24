@@ -141,7 +141,6 @@ public:
 	NETVAR(get_view_offset(), Vector, _("DT_BasePlayer"), _("localdata"), _("m_vecViewOffset[0]"));
 	NETVAR(get_health(), int, _("DT_BasePlayer"), _("m_iHealth"));
 	NETVAR(get_life_state(), LifeState, _("DT_BasePlayer"), _("m_lifeState"));
-	bool is_alive() { return get_health() && get_life_state() == LifeState::ALIVE; }
 
 	VFUNC(set_local_view_angles(QAngle& angle), 372, void(__thiscall*)(void*, QAngle&), angle);
 
@@ -149,6 +148,8 @@ public:
 	CUSTOM_VFUNC(physics_run_think(int index), "client_panorama.dll", "55 8B EC 83 EC 10 53 56 57 8B F9 8B 87", bool(__thiscall*)(void*, int), index);
 	CUSTOM_VFUNC(select_item(const char* string, int sub_type = 0), "client_panorama.dll", "55 8B EC 56 8B F1 ? ? ? 85 C9 74 71 8B 06", bool(__thiscall*)(void*, const char*, int), string, sub_type);
 
+	bool is_alive() { return get_health() && get_life_state() == LifeState::ALIVE; }
+	
 	Vector get_eye_position() {
 		Vector out;
 		typedef void(__thiscall *fn)(void*, Vector&);
