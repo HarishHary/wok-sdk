@@ -60,7 +60,11 @@ public:
 	float* Base();
 	float const* Base() const;
 };
-
+//===============================================
+inline bool Vector::IsValid() const
+{
+	return std::isfinite(x) && std::isfinite(y) && std::isfinite(z);
+}
 //===============================================
 inline void Vector::Init(float ix, float iy, float iz)
 {
