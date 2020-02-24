@@ -107,7 +107,7 @@ public:
 
 class C_BaseAttributableItem : public C_BaseEntity {
 public:
-	NETVAR(get_item_definiton_index(), int, _("DT_BaseAttributableItem"), _("m_AttributeManager"), _("m_Item"), _("m_iItemDefinitionIndex"));
+	NETVAR(get_item_definition_index(), short, _("DT_BaseAttributableItem"), _("m_AttributeManager"), _("m_Item"), _("m_iItemDefinitionIndex"));
 	NETVAR(get_account_id(), int, _("DT_BaseAttributableItem"), _("m_AttributeManager"), _("m_Item"), _("m_iAccountID")); 
 	NETVAR(get_item_quality(), int, _("DT_BaseAttributableItem"), _("m_AttributeManager"), _("m_Item"), _("m_iEntityQuality"));
 	NETVAR(get_item_id_high(), int, _("DT_BaseAttributableItem"), _("m_AttributeManager"), _("m_Item"), _("m_iItemIDHigh"));

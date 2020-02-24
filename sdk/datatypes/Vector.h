@@ -42,7 +42,7 @@ public:
 	float	NormalizeL();
 	inline Vector Normalized() const;
 	__forceinline float	DistToSqr(const Vector &vOther) const;
-	__forceinline float	Dist(const Vector &vOther) const;
+	__forceinline float	DistTo(const Vector &vOther) const;
 	Vector	Cross(const Vector & vOther) const;
 	float	Dot(const Vector& vOther) const;
 	float	Dot(const float* fOther) const;
@@ -299,7 +299,7 @@ float Vector::DistToSqr(const Vector &vOther) const
 	return delta.LengthSqr();
 }
 
-float Vector::Dist(const Vector &vOther) const
+float Vector::DistTo(const Vector &vOther) const
 {
 	Vector delta;
 
