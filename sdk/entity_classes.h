@@ -104,7 +104,7 @@ public:
 	NETVAR(get_wearables(), CBaseHandle, _("DT_BaseCombatCharacter"), _("m_hMyWearables"));
 	NETVAR(get_active_weapon_handle(), CBaseHandle, _("DT_BaseCombatCharacter"), _("m_hActiveWeapon"));
 
-	C_BaseCombatWeapon* get_weapon() { 
+	C_BaseCombatWeapon* get_active_weapon() { 
 		if (!get_active_weapon_handle().IsValid()) 
 			return nullptr; 
 
@@ -240,7 +240,6 @@ public:
 
 class C_BaseCombatWeapon : public C_BaseAttributableItem, public C_BaseEntity {
 public:
-	VFUNC(get_cs_weapon_data(), 459, CCSWeaponData*(__thiscall*)(void*));
 	VFUNC(get_inaccuracy(), 481, float(__thiscall*)(void*));
 	VFUNC(get_spread(), 451, float(__thiscall*)(void*));
 	VFUNC(update_accuracy(), 482, void(__thiscall*)(void*));
@@ -257,6 +256,13 @@ public:
 	NETVAR(get_next_primary_attack(), float, _("DT_BaseCombatWeapon"), _("LocalActiveWeaponData"), _("m_flNextPrimaryAttack"));
 	NETVAR(get_next_secondary_attack(), float, _("DT_BaseCombatWeapon"), _("LocalActiveWeaponData"), _("m_flNextSecondaryAttack"));
 
+	CCSWeaponData* get_cs_weapon_data() {
+		if (!this)
+			return nullptr;
+
+		return g_pWeaponSystem->GetWeaponData(get_item_definition_index());
+	}
+	
 	float get_standing_accuracy() {
 		auto max_speed = (get_zoom_level() > 0) ? get_cs_weapon_data()->flMaxSpeedAlt : get_cs_weapon_data()->flMaxSpeed;
 		return max_speed / 3.f;

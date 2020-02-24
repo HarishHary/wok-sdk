@@ -29,6 +29,7 @@ IMaterialSystem*		g_pMaterialSystem = nullptr;
 IVRenderView*			g_pRenderView = nullptr;
 CGlowObjectManager*		g_pGlowManager = nullptr;
 IViewRenderBeams*		g_pViewRenderBeams = nullptr;
+IWeaponSystem*			g_pWeaponSystem = nullptr;
 
 namespace wok {
 	namespace interfaces {
@@ -54,13 +55,14 @@ namespace wok {
 			g_pSurfaceData = memory::capture_interface<IPhysicsSurfaceProps>(_("vphysics.dll"), _("VPhysicsSurfaceProps001"));
 			g_pInputSystem = memory::capture_interface<IInputSystem>(_("inputsystem.dll"), _("InputSystemVersion001"));
 			g_pClientLeafSystem = memory::capture_interface<IClientLeafSystem>(_("client_panorama.dll"), _("ClientLeafSystem002"));
-			g_pGameRules = *reinterpret_cast<CGameRules**>(SIG("client_panorama.dll", "A1 ? ? ? ? 85 C0 0F 84 ? ? ? ? 80 B8 ? ? ? ? ? 74 7A") + 1);
+			g_pGameRules = *reinterpret_cast<CGameRules**>(SIG("client_panorama.dll", "A1 ? ? ? ? 85 C0 0F 84 ? ? ? ? 80 B8 ? ? ? ? ? 74 7A") + 0x1);
 			g_pModelCache = memory::capture_interface<IMDLCache>(_("datacache.dll"), _("MDLCache004"));
 			g_pModelRender = memory::capture_interface<IVModelRender>(_("engine.dll"), _("VEngineModel016"));
 			g_pMaterialSystem = memory::capture_interface<IMaterialSystem>(_("materialsystem.dll"), _("VMaterialSystem080"));
 			g_pRenderView = memory::capture_interface<IVRenderView>(_("engine.dll"), _("VEngineRenderView014"));
-			g_pGlowManager = *reinterpret_cast<CGlowObjectManager**>(SIG("client_panorama.dll", "0F 11 05 ? ? ? ? 83 C8 01") + 3);
-			g_pViewRenderBeams = *reinterpret_cast<IViewRenderBeams**>(SIG("client_panorama.dll", "B9 ? ? ? ? A1 ? ? ? ? FF 10 A1 ? ? ? ? B9") + 1);
+			g_pGlowManager = *reinterpret_cast<CGlowObjectManager**>(SIG("client_panorama.dll", "0F 11 05 ? ? ? ? 83 C8 01") + 0x3);
+			g_pViewRenderBeams = *reinterpret_cast<IViewRenderBeams**>(SIG("client_panorama.dll", "B9 ? ? ? ? A1 ? ? ? ? FF 10 A1 ? ? ? ? B9") + 0x1);
+			g_pWeaponSystem = *reinterpret_cast<IWeaponSystem**>(SIG("client_panorama.dll", "8B 35 ? ? ? ? FF 10 0F B7 C0") + 0x2);
 
 			g::local = *reinterpret_cast<C_LocalPlayer*>(SIG("client_panorama.dll", "8B 0D ? ? ? ? 83 FF FF 74 07") + 0x2);
 		}

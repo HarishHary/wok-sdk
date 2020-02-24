@@ -58,6 +58,7 @@
 #include "interfaces/IVRenderView.h"
 #include "interfaces/CGlowObjectManager.h"
 #include "interfaces/IViewRenderBeams.h"
+#include "interfaces/IWeaponSystem.h"
 
 #include "../utils/render/render.h"
 #include "../utils/math/math.h"
