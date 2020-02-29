@@ -135,7 +135,6 @@ public:
 	NETVAR(get_flags(), int, _("DT_BasePlayer"), _("m_fFlags"));
 	NETVAR(get_vehicle(), CBaseHandle, _("DT_BasePlayer"), _("m_hVehicle"));
 	NETVAR(get_water_level(), int, _("DT_BasePlayer"), _("m_nWaterLevel"));
-	NETVAR(get_next_think_tick(), int, _("DT_BasePlayer"), _("localdata"), _("m_nNextThinkTick"));
 	NETVAR(get_tickbase(), int, _("DT_BasePlayer"), _("localdata"), _("m_nTickBase"));
 	NETVAR(get_duck_speed(), float, _("DT_BasePlayer"), _("m_flDuckSpeed"));
 	NETVAR(get_view_offset(), Vector, _("DT_BasePlayer"), _("localdata"), _("m_vecViewOffset[0]"));
