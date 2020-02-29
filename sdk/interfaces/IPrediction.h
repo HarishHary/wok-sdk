@@ -35,6 +35,7 @@ class IMoveHelper;
 
 class IPrediction {
 public:
+	VFUNC(Update(int startframe, bool validframe, int incoming_acknowledged, int outgoing_command), 3, void(__thiscall*)(void*, int, bool, int, int), startframe, validframe, incoming_acknowledged, outgoing_command);
 	VFUNC(InPrediction(), 14, bool(__thiscall*)(void*));
 	VFUNC(CheckMovingOnGround(C_BasePlayer* player, float frame_time), 18, void(__thiscall*)(void*, C_BasePlayer*, double), player, frame_time);
 	VFUNC(RunCommand(C_BasePlayer *player, CUserCmd *cmd, IMoveHelper *movehelper), 19, void(__thiscall*)(void*, C_BasePlayer*, CUserCmd *, IMoveHelper*), player, cmd, movehelper)

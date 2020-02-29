@@ -142,16 +142,16 @@ void math::vector_angles(const Vector& forward, Vector& up, QAngle& angles) {
 	Vector left = CrossProduct(up, forward);
 	left.NormalizeInPlace();
 
-	float forwardDist = forward.Length2D();
-	if (forwardDist > 0.001f) {
-		angles.x = fast_atan2(-forward.z, forwardDist) * 180 / M_PI;
+	float forward_dist = forward.Length2D();
+	if (forward_dist > 0.001f) {
+		angles.x = fast_atan2(-forward.z, forward_dist) * 180 / M_PI;
 		angles.y = fast_atan2(forward.y, forward.x) * 180 / M_PI;
 
-		float upZ = (left.y * forward.x) - (left.x * forward.y);
-		angles.z = fast_atan2(left.z, upZ) * 180 / M_PI;
+		float up_z = (left.y * forward.x) - (left.x * forward.y);
+		angles.z = fast_atan2(left.z, up_z) * 180 / M_PI;
 	}
 	else {
-		angles.x = fast_atan2(-forward.z, forwardDist) * 180 / M_PI;
+		angles.x = fast_atan2(-forward.z, forward_dist) * 180 / M_PI;
 		angles.y = fast_atan2(-left.x, left.y) * 180 / M_PI;
 		angles.z = 0;
 	}
@@ -159,23 +159,27 @@ void math::vector_angles(const Vector& forward, Vector& up, QAngle& angles) {
 
 QAngle math::calc_angle(const Vector src, const Vector dst) {
 	auto delta = src - dst;
-	if (delta == Vector())
-		return Vector();
+	if (delta == Vector(0, 0, 0))
+		return Vector(0, 0, 0);
 
-	const auto len = delta.Length();
+	auto len = delta.Length();
 
-	if (delta.z == 0.0f && len == 0.0f)
-		return Vector();
+	if (delta.z == 0.0f
+		&& len == 0.0f)
+		return Vector(0, 0, 0);
 
-	if (delta.y == 0.0f && delta.x == 0.0f)
-		return Vector();
+	if (delta.y == 0.0f 
+		&& delta.x == 0.0f)
+		return Vector(0, 0, 0);
 
 	QAngle angles;
 	angles.x = (fast_asin(delta.z / delta.Length()) * M_RADPI);
 	angles.y = (fast_atan(delta.y / delta.x) * M_RADPI);
 
 	angles.z = 0.0f;
-	if (delta.x >= 0.0f) { angles.y += 180.0f; }
+	if (delta.x >= 0.0f)  { 
+		angles.y += 180.0f; 
+	}
 
 	return angles.Clamp();
 }

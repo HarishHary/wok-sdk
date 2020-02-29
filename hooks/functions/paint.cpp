@@ -15,8 +15,7 @@ void __fastcall hooks::paint(uintptr_t ecx, uintptr_t edx, int mode) {
 
 	if (mode & PAINT_UIPANELS || mode & PAINT_INGAMEPANELS) {
 		g_pSurface->StartDrawing(); {																			
-			render->draw_text(Vector2D(render->screen_size.x / 2, render->screen_size.y / 8), Color::Purple(), render->fonts.verdana, true, _("wok sdk :sunglasses:"));
-			render->draw_text(Vector2D(render->screen_size.x / 2, render->screen_size.y / 8 + 12), Color::Purple(), render->fonts.verdana, true, _("-________________-"));
+			menu->on_paint();
 		}
 		g_pSurface->FinishDrawing();
 	}

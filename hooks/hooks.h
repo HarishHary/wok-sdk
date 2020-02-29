@@ -1,6 +1,7 @@
 #pragma once
 #include "../globals.h"
 #include "../utils/memory/hook.h"
+#include "../features/features.h"
 
 class hooks {
 public:

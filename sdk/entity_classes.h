@@ -144,6 +144,10 @@ public:
 
 	VFUNC(set_local_view_angles(QAngle& angle), 372, void(__thiscall*)(void*, QAngle&), angle);
 
+	VFUNC(think(), 138, void(__thiscall*)(void*)); // 8B C1 8B 50 40
+	VFUNC(pre_think(), 317, void(__thiscall*)(void*)); // 55 8B EC 83 E4 F8 51 56 8B F1 8B 06
+	VFUNC(post_think(), 318, void(__thiscall*)(void*)); // 56 8B 35 ? ? ? ? 57 8B F9 8B CE 8B 06 FF 90 ? ? ? ? 8B 07
+
 	CUSTOM_VFUNC(using_standard_weapons_in_vehicle(), "client_panorama.dll", "56 57 8B F9 8B 97 ? ? ? ? 83 FA FF 74 41", bool(__thiscall*)(void*));
 	CUSTOM_VFUNC(physics_run_think(int index), "client_panorama.dll", "55 8B EC 83 EC 10 53 56 57 8B F9 8B 87", bool(__thiscall*)(void*, int), index);
 	CUSTOM_VFUNC(select_item(const char* string, int sub_type = 0), "client_panorama.dll", "55 8B EC 56 8B F1 ? ? ? 85 C9 74 71 8B 06", bool(__thiscall*)(void*, const char*, int), string, sub_type);

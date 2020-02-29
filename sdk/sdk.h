@@ -15,10 +15,7 @@
 
 #include "other/CBaseHandle.h"
 #include "other/ClientClass.h"
-#include "other/IClientNetworkable.h"
-#include "other/IClientRenderable.h"
-#include "other/IClientThinkable.h"
-#include "other/IClientUnknown.h"
+#include "other/IColliedeable.h"
 #include "other/IClientEntity.h"
 #include "../utils/utils.h"
 
