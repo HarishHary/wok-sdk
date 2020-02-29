@@ -61,7 +61,7 @@ void c_prediction::run(C_CSPlayer* player, CUserCmd* cmd) {
 	if (player->physics_run_think(0))
 		player->pre_think();
 
-	auto next_think = reinterpret_cast<int*>(uint32_t(player) + 0xFC);
+	auto next_think = reinterpret_cast<int*>(reinterpret_cast<uint32_t>(player) + 0xFC);
 	if (*next_think > 0 && *next_think <= player->get_tickbase()) {
 		*next_think = -1;
 		player->think();
