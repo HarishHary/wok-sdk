@@ -1,21 +1,25 @@
 #pragma once
 
+class CBoneSetup {
+	void accumulate_pose(Vector* pos, Quaternion* q, int sequence, float cycle, float weight, float time, IKContext* ik) {
+		static const auto accumulate_pose_fn = reinterpret_cast<void(__thiscall*)(Vector*, Quaternion*, int, float, float, float, IKContext*)>(SIG("client_panorama.dll", "55 8B EC 83 E4 F0 B8 ? ? ? ? E8 ? ? ? ? A1"));
+		return accumulate_pose_fn(pos, q, sequence, cycle, weight, time, ik);
+	}
+};
+
 class IKContext {
 public:
 	void init(void* hdr, QAngle& angles, Vector& origin, float curtime, int framecount, int bone_mask) {
-		static const auto init = SIG("client_panorama.dll", "55 8B EC 83 EC ? 8B 45 ? 56 57 8B F9 8D 8F ? ? ? ?");
-		typedef void(__thiscall* fn) (IKContext*, void*, QAngle&, Vector&, float, int, int);
-		return reinterpret_cast<fn>(init)(this, hdr, angles, origin, curtime, framecount, bone_mask);
+		static const auto init_fn = reinterpret_cast<void(__thiscall*)(IKContext*, void*, QAngle&, Vector&, float, int, int)>(SIG("client_panorama.dll", "55 8B EC 83 EC ? 8B 45 ? 56 57 8B F9 8D 8F ? ? ? ?"));
+		return init_fn(this, hdr, angles, origin, curtime, framecount, bone_mask);
 	}
 	void update_targets(Vector* pos, Quaternion* q, matrix3x4_t* bone_array, uint8_t* computed) {
-		static const auto update_targets = SIG("client_panorama.dll", "55 8B EC 83 E4 ? 81 EC ? ? ? ? 33 D2");
-		typedef void(__thiscall* fn) (IKContext*, Vector*, void*, matrix3x4_t*, uint8_t*);
-		return reinterpret_cast<fn>(update_targets)(this, pos, q, bone_array, computed);
+		static const auto update_targets_fn = reinterpret_cast<void(__thiscall*)(IKContext*, Vector*, void*, matrix3x4_t*, uint8_t*)>(SIG("client_panorama.dll", "55 8B EC 83 E4 ? 81 EC ? ? ? ? 33 D2"));
+		return update_targets_fn(this, pos, q, bone_array, computed);
 	}
 	void solve_dependencies(Vector* pos, Quaternion* q, matrix3x4_t* bone_array, uint8_t* computed) {
-		static const auto solve_dependencies = SIG("client_panorama.dll", "55 8B EC 83 E4 ? 81 EC ? ? ? ? 8B 81 ? ? ? ? 56");
-		typedef void(__thiscall* fn) (IKContext*, Vector*, void*, matrix3x4_t*, uint8_t*);
-		return reinterpret_cast<fn>(solve_dependencies)(this, pos, q, bone_array, computed);
+		static const auto solve_dependencies_fn = reinterpret_cast<void(__thiscall*)(IKContext*, Vector*, void*, matrix3x4_t*, uint8_t*)>(SIG("client_panorama.dll", "55 8B EC 83 E4 ? 81 EC ? ? ? ? 8B 81 ? ? ? ? 56"));
+		return solve_dependencies_fn(this, pos, q, bone_array, computed);
 	}
 	void clear_targets() {
 		int v112 = 0;
