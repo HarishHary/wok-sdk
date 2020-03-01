@@ -15,11 +15,9 @@ private:
 		if (player->is_alive()) {
 			utils::get_vfunc<void(__thiscall*)(void*)>(player, 339)(player);
 
-			if (player->get_flags() & FL_ONGROUND) 
-				*reinterpret_cast<uintptr_t*>(uintptr_t(player) + 0xC05) = 0;
+			player->get_flags() & FL_ONGROUND ? player->get_fall_velocity() = 0.f : 0;
 
-			if (*reinterpret_cast<uint32_t*>(uintptr_t(player) + 0xA2F) == -1)
-				utils::get_vfunc<void(__thiscall*)(void*, int)>(player, 218)(player, 0);
+			player->get_sequence() == -1 ? utils::get_vfunc<void(__thiscall*)(void*, int)>(player, 218)(player, 0) : 0;
 
 			utils::get_vfunc<void(__thiscall*)(void*)>(player, 219)(player);
 

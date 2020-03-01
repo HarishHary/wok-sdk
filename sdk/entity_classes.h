@@ -132,6 +132,7 @@ public:
 	DATAMAP(get_move_type(), int, _("m_MoveType"));
 	DATAMAP(get_next_attack(), float, _("m_flNextAttack"));
 	
+	NETVAR(get_fall_velocity(), float, _("DT_BasePlayer"), _("localdata"), _("m_Local"), _("m_flFallVelocity"));
 	NETVAR(get_flags(), int, _("DT_BasePlayer"), _("m_fFlags"));
 	NETVAR(get_vehicle(), CBaseHandle, _("DT_BasePlayer"), _("m_hVehicle"));
 	NETVAR(get_water_level(), int, _("DT_BasePlayer"), _("m_nWaterLevel"));
@@ -167,7 +168,8 @@ public:
 	NETVAR(get_pose_params(), pose_params, _("DT_BaseAnimating"), _("m_flPoseParameter"));
 	NETPROP(get_client_side_animation_prop(), _("DT_BaseAnimating"), _("m_bClientSideAnimation"));
 	NETVAR(get_client_side_animation(), bool, _("DT_BaseAnimating"), _("m_bClientSideAnimation"));
-
+	NETVAR(get_sequence(), int, _("DT_BaseAnimating"), _("m_nSequence"));
+	
 	void set_anim_layers(anim_layers& layers) {
 		auto this_layers = get_anim_layers();
 		std::copy(std::begin(this_layers), std::end(this_layers), std::begin(layers));
