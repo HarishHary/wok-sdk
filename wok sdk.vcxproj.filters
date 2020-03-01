@@ -49,6 +49,11 @@
     <ClCompile Include="hooks\other\convar.cpp" />
     <ClCompile Include="globals.cpp" />
     <ClCompile Include="hooks\functions\create_move.cpp" />
+    <ClCompile Include="features\engine_prediction\c_prediction.cpp" />
+    <ClCompile Include="features\misc\c_movement.cpp" />
+    <ClCompile Include="sdk\other\checksum_crc.cpp" />
+    <ClCompile Include="sdk\other\checksum_md5.cpp" />
+    <ClCompile Include="menu\menu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sdk\CBaseHandle.h">
@@ -129,5 +134,14 @@
     <ClInclude Include="sdk\interfaces\CGlowObjectManager.h" />
     <ClInclude Include="sdk\interfaces\IViewRenderBeams.h" />
     <ClInclude Include="sdk\other\IMaterialVar.h" />
+    <ClInclude Include="features\engine_prediction\c_prediction.h" />
+    <ClInclude Include="features\misc\c_movement.h" />
+    <ClInclude Include="features\features.h" />
+    <ClInclude Include="sdk\interfaces\IWeaponSystem.h" />
+    <ClInclude Include="sdk\other\checksum_crc.h" />
+    <ClInclude Include="sdk\other\checksum_md5.h" />
+    <ClInclude Include="sdk\other\INetChannelInfo.h" />
+    <ClInclude Include="sdk\other\IColliedeable.h" />
+    <ClInclude Include="menu\menu.h" />
   </ItemGroup>
 </Project>

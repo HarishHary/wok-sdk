@@ -141,6 +141,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="features\engine_prediction\c_prediction.cpp" />
+    <ClCompile Include="features\misc\c_movement.cpp" />
     <ClCompile Include="hooks\functions\create_move.cpp" />
     <ClCompile Include="hooks\other\convar.cpp" />
     <ClCompile Include="hooks\other\c_cs_player.cpp" />
@@ -148,6 +150,9 @@
     <ClCompile Include="hooks\hooks.cpp" />
     <ClCompile Include="init.cpp" />
     <ClCompile Include="globals.cpp" />
+    <ClCompile Include="menu\menu.cpp" />
+    <ClCompile Include="sdk\other\checksum_crc.cpp" />
+    <ClCompile Include="sdk\other\checksum_md5.cpp" />
     <ClCompile Include="utils\math\math.cpp" />
     <ClCompile Include="utils\obfuscation\fnv1a.cpp" />
     <ClCompile Include="main.cpp" />
@@ -156,8 +161,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common_includes.h" />
+    <ClInclude Include="features\engine_prediction\c_prediction.h" />
+    <ClInclude Include="features\features.h" />
+    <ClInclude Include="features\misc\c_movement.h" />
     <ClInclude Include="hooks\hooks.h" />
     <ClInclude Include="globals.h" />
+    <ClInclude Include="menu\menu.h" />
     <ClInclude Include="sdk\datatypes\Color.h" />
     <ClInclude Include="sdk\datatypes\Vector2D.h" />
     <ClInclude Include="sdk\datatypes\VMatrix.h" />
@@ -187,6 +196,9 @@
     <ClInclude Include="sdk\interfaces\CInput.h" />
     <ClInclude Include="sdk\interfaces\IVModelRender.h" />
     <ClInclude Include="sdk\interfaces\IVRenderView.h" />
+    <ClInclude Include="sdk\interfaces\IWeaponSystem.h" />
+    <ClInclude Include="sdk\other\checksum_crc.h" />
+    <ClInclude Include="sdk\other\checksum_md5.h" />
     <ClInclude Include="sdk\other\ClientClass.h" />
     <ClInclude Include="sdk\datatypes\CUtlVector.h" />
     <ClInclude Include="sdk\datatypes\matrix3x4_t.h" />
@@ -205,8 +217,10 @@
     <ClInclude Include="sdk\other\IClientThinkable.h" />
     <ClInclude Include="sdk\other\IClientUnknown.h" />
     <ClInclude Include="sdk\entity_structs.h" />
+    <ClInclude Include="sdk\other\IColliedeable.h" />
     <ClInclude Include="sdk\other\IMaterial.h" />
     <ClInclude Include="sdk\other\IMaterialVar.h" />
+    <ClInclude Include="sdk\other\INetChannelInfo.h" />
     <ClInclude Include="sdk\other\ITraceFilter.h" />
     <ClInclude Include="utils\math\math.h" />
     <ClInclude Include="utils\memory\hook.h" />
