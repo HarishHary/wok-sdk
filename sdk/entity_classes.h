@@ -30,6 +30,7 @@ public:
 };
 
 class CBoneSetup {
+public:
 	void accumulate_pose(Vector* pos, Quaternion* q, int sequence, float cycle, float weight, float time, IKContext* ik) {
 		static const auto accumulate_pose_fn = reinterpret_cast<void(__thiscall*)(CBoneSetup*, Vector*, Quaternion*, int, float, float, float, IKContext*)>(SIG("client_panorama.dll", "55 8B EC 83 E4 F0 B8 ? ? ? ? E8 ? ? ? ? A1"));
 		return accumulate_pose_fn(this, pos, q, sequence, cycle, weight, time, ik);
