@@ -22,7 +22,7 @@ IEngineTrace*			g_pTrace = nullptr;
 IPhysicsSurfaceProps*	g_pSurfaceData = nullptr;
 IInputSystem*			g_pInputSystem = nullptr;
 IClientLeafSystem*		g_pClientLeafSystem = nullptr;
-CGameRules*				g_pGameRules = nullptr;
+CGameRules**			g_pGameRules = nullptr;
 IMDLCache*				g_pModelCache = nullptr;
 IVModelRender*			g_pModelRender = nullptr;
 IMaterialSystem*		g_pMaterialSystem = nullptr;
@@ -55,7 +55,7 @@ namespace wok {
 			g_pSurfaceData = memory::capture_interface<IPhysicsSurfaceProps>(_("vphysics.dll"), _("VPhysicsSurfaceProps001"));
 			g_pInputSystem = memory::capture_interface<IInputSystem>(_("inputsystem.dll"), _("InputSystemVersion001"));
 			g_pClientLeafSystem = memory::capture_interface<IClientLeafSystem>(_("client_panorama.dll"), _("ClientLeafSystem002"));
-			g_pGameRules = *reinterpret_cast<CGameRules**>(SIG("client_panorama.dll", "A1 ? ? ? ? 85 C0 0F 84 ? ? ? ? 80 B8 ? ? ? ? ? 74 7A") + 0x1);
+			g_pGameRules = *reinterpret_cast<CGameRules***>(SIG("client_panorama.dll", "A1 ? ? ? ? 85 C0 0F 84 ? ? ? ? 80 B8 ? ? ? ? ? 74 7A") + 0x1);
 			g_pModelCache = memory::capture_interface<IMDLCache>(_("datacache.dll"), _("MDLCache004"));
 			g_pModelRender = memory::capture_interface<IVModelRender>(_("engine.dll"), _("VEngineModel016"));
 			g_pMaterialSystem = memory::capture_interface<IMaterialSystem>(_("materialsystem.dll"), _("VMaterialSystem080"));
