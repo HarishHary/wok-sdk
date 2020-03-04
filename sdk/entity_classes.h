@@ -250,9 +250,9 @@ public:
 
 class C_BaseCombatWeapon : public C_BaseAttributableItem {
 public:
-	VFUNC(get_inaccuracy(), 481, float(__thiscall*)(void*));
-	VFUNC(get_spread(), 451, float(__thiscall*)(void*));
-	VFUNC(update_accuracy(), 482, void(__thiscall*)(void*));
+	VFUNC(get_inaccuracy(), 482, float(__thiscall*)(void*));
+	VFUNC(get_spread(), 452, float(__thiscall*)(void*));
+	VFUNC(update_accuracy(), 483, void(__thiscall*)(void*));
 
 	NETVAR(get_pin_pulled(), bool, _("DT_BaseCSGrenade"), _("m_bPinPulled"));
 	NETVAR(get_throw_time(), float, _("DT_BaseCSGrenade"), _("m_fThrowTime"));
