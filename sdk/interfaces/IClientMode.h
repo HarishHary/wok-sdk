@@ -48,7 +48,7 @@ public:
 	float     fov;                //0x00B0 
 	float     viewmodel_fov;      //0x00B4 
 	Vector    origin;             //0x00B8 
-	Vector    angles;             //0x00C4 
+	QAngle    angles;             //0x00C4 
 	char      pad_0x00D0[0x7C];   //0x00D0
 
 };//Size=0x014C

@@ -263,8 +263,6 @@
 #define	CONTENTS_LADDER			0x20000000
 #define CONTENTS_HITBOX			0x40000000	// use accurate hitboxes on trace
 
-#define	MASK_SHOT	(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_MONSTER|CONTENTS_WINDOW|CONTENTS_DEBRIS|CONTENTS_HITBOX)
-
 #define	MASK_ALL					(0xFFFFFFFF)
 // everything that is normally solid
 #define	MASK_SOLID					(CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_WINDOW|CONTENTS_MONSTER|CONTENTS_GRATE)
@@ -285,7 +283,7 @@
 // everything that blocks line of sight for AI plus NPCs
 #define MASK_BLOCKLOS_AND_NPCS		(MASK_BLOCKLOS|CONTENTS_MONSTER)
 // everything that blocks line of sight for players
-#define	MASK_VISIBLE					(MASK_OPAQUE|CONTENTS_IGNORE_NODRAW_OPAQUE)
+#define	MASK_VISIBLE				(MASK_OPAQUE|CONTENTS_IGNORE_NODRAW_OPAQUE)
 // everything that blocks line of sight for players, but with monsters added.
 #define MASK_VISIBLE_AND_NPCS		(MASK_OPAQUE_AND_NPCS|CONTENTS_IGNORE_NODRAW_OPAQUE)
 // bullets see these as solid
@@ -320,7 +318,7 @@
 #define NOISE_DIVISIONS		128
 #define MAX_BEAM_ENTS		10
 
-#define MULTIPLAYER_BACKUP 150
+#define MULTIPLAYER_BACKUP  150
 
 #define IN_ATTACK        (1 << 0)
 #define IN_JUMP          (1 << 1)
