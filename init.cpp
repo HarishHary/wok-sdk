@@ -30,6 +30,7 @@ IVRenderView*			g_pRenderView = nullptr;
 CGlowObjectManager*		g_pGlowManager = nullptr;
 IViewRenderBeams*		g_pViewRenderBeams = nullptr;
 IWeaponSystem*			g_pWeaponSystem = nullptr;
+CFontManager*			g_pFontManager = nullptr;
 
 namespace wok {
 	namespace interfaces {
@@ -63,6 +64,7 @@ namespace wok {
 			g_pGlowManager = *reinterpret_cast<CGlowObjectManager**>(SIG("client_panorama.dll", "0F 11 05 ? ? ? ? 83 C8 01") + 0x3);
 			g_pViewRenderBeams = *reinterpret_cast<IViewRenderBeams**>(SIG("client_panorama.dll", "B9 ? ? ? ? A1 ? ? ? ? FF 10 A1 ? ? ? ? B9") + 0x1);
 			g_pWeaponSystem = *reinterpret_cast<IWeaponSystem**>(SIG("client_panorama.dll", "8B 35 ? ? ? ? FF 10 0F B7 C0") + 0x2);
+			g_pFontManager = *reinterpret_cast<CFontManager**>(SIG("vguimatsurface.dll", "74 1D 8B 0D ? ? ? ? 68 ? ? ? ?") + 0x4);
 
 			g::local = *reinterpret_cast<C_LocalPlayer*>(SIG("client_panorama.dll", "8B 0D ? ? ? ? 83 FF FF 74 07") + 0x2);
 		}

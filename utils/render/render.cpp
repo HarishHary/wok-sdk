@@ -8,7 +8,7 @@ void c_render::destroy_fonts() {
 void c_render::init_fonts() {
 	auto create_font = [](HFont& to_create, const char* windows_font_name, int tall, int weight, int blur, int scanlines, int flags) -> void {
 		to_create = g_pSurface->CreateFont();
-		g_pSurface->SetFontGlyphSet(to_create, windows_font_name, tall, weight, blur, scanlines, flags, 0, 0);
+		g_pFontManager->SetFontGlyphSet(to_create, windows_font_name, tall, weight, blur, scanlines, flags, 0, 0);
 	};
 
 	if (initialized)
@@ -32,7 +32,7 @@ bool c_render::world_to_screen(const Vector& origin, Vector2D& screen) {
 		screen.x = w2s_matrix.m[0][0] * origin.x + w2s_matrix.m[0][1] * origin.y + w2s_matrix.m[0][2] * origin.z + w2s_matrix.m[0][3];
 		screen.y = w2s_matrix.m[1][0] * origin.x + w2s_matrix.m[1][1] * origin.y + w2s_matrix.m[1][2] * origin.z + w2s_matrix.m[1][3];
 
-		float w = w2s_matrix.m[3][0] * origin.x + w2s_matrix.m[3][1] * origin.y + w2s_matrix.m[3][2] * origin.z + w2s_matrix.m[3][3];
+		auto w = w2s_matrix.m[3][0] * origin.x + w2s_matrix.m[3][1] * origin.y + w2s_matrix.m[3][2] * origin.z + w2s_matrix.m[3][3];
 
 		if (w < 0.001f) {
 			screen.x *= 100000;
@@ -40,7 +40,7 @@ bool c_render::world_to_screen(const Vector& origin, Vector2D& screen) {
 			return true;
 		}
 
-		float inv_w = 1.f / w;
+		auto inv_w = 1.f / w;
 		screen.x *= inv_w;
 		screen.y *= inv_w;
 
@@ -55,19 +55,19 @@ bool c_render::world_to_screen(const Vector& origin, Vector2D& screen) {
 	return false;
 }
 
-void c_render::draw_text(Vector2D pos, Color color, HFont font, bool centered, std::string text) {
-	auto converted_text = std::wstring(text.begin(), text.end());
-
-	int w, h;
-	g_pSurface->GetTextSize(font, converted_text.c_str(), w, h);
-
+void c_render::draw_text(Vector2D pos, Color color, HFont font, bool centered, const char* text) {
 	int x_ = pos.x, y_ = pos.y;
-	centered ? x_ -= w / 2 : 0;
+	if (centered) {
+		Vector2D size;
+		get_text_size(font, text, size);
+		x_ -= size.x / 2;
+	}
 
-	g_pSurface->DrawSetTextColor(color);
-	g_pSurface->DrawSetTextFont(font);
-	g_pSurface->DrawSetTextPos(x_, y_);
-	g_pSurface->DrawPrintText(converted_text.c_str(), converted_text.length());
+	g_pSurface->DrawColoredText(font, x_, y_, color.red, color.green, color.blue, color.alpha, text);
+}
+
+void c_render::draw_text(Vector2D pos, Color color, HFont font, bool centered, std::string_view text) {
+	draw_text(pos, color, font, centered, text.data());
 }
 
 void c_render::draw_gradient_rect(Vector2D pos, Vector2D size, Color c, Color c_, bool horizontal) {
@@ -83,7 +83,7 @@ void c_render::draw_circle(Vector2D pos, int radius, Color color) {
 }
 
 void c_render::draw_textured_polygon(int n, Vertex_t* vertices, Color color) {
-	static int texture_id = g_pSurface->CreateNewTextureID(true);
+	static const auto texture_id = g_pSurface->CreateNewTextureID(true);
 	static unsigned char buf[4] = { 255, 255, 255, 255 };
 	g_pSurface->DrawSetColor(color);
 	g_pSurface->DrawSetTexture(texture_id);
@@ -91,14 +91,13 @@ void c_render::draw_textured_polygon(int n, Vertex_t* vertices, Color color) {
 }
 
 void c_render::draw_rounded_filled_rect(Vector2D pos, Vector2D size, float radius, Color color) {
-	constexpr int quality = 24;
-	static Vertex_t verts[quality];
 	Vector2D add = { 0, 0 };
-	for (int i = 0; i < quality; i++) {
-		float angle = (static_cast <float> (i) / -quality) * 6.28f - (6.28f / 16.f);
+	static Vertex_t vertices[24];
+	for (int i = 0; i < 24; i++) {
+		float angle = (static_cast<float>(i) / -24) * 6.28f - (6.28f / 16.f);
 
-		verts[i].mPosition.x = radius + pos.x + add.x + (radius * sin(angle));
-		verts[i].mPosition.y = size.y - radius + pos.y + add.y + (radius * cos(angle));
+		vertices[i].mPosition.x = radius + pos.x + add.x + (radius * sin(angle));
+		vertices[i].mPosition.y = size.y - radius + pos.y + add.y + (radius * cos(angle));
 
 		if (i == 4) {
 			add.y = -size.y + (radius * 2);
@@ -114,7 +113,7 @@ void c_render::draw_rounded_filled_rect(Vector2D pos, Vector2D size, float radiu
 		}
 	}
 	g_pSurface->DrawSetColor(color);
-	g_pSurface->DrawTexturedPolygon(quality, verts);
+	g_pSurface->DrawTexturedPolygon(24, vertices);
 }
 
 void c_render::draw_filled_rect(Vector2D pos, Vector2D size, Color color) {
@@ -122,11 +121,15 @@ void c_render::draw_filled_rect(Vector2D pos, Vector2D size, Color color) {
 	g_pSurface->DrawFilledRect(pos.x, pos.y, pos.x + size.x, pos.y + size.y);
 }
 
-void c_render::get_text_size(HFont font, std::string text, Vector2D& out) {
-	int x, y;
-	std::wstring converted_text = std::wstring(text.begin(), text.end());
-	g_pSurface->GetTextSize(font, converted_text.c_str(), x, y);
-	out = Vector2D(x, y);
+void c_render::get_text_size(HFont font, std::string_view text, Vector2D& out) {
+	int w, h;
+	auto converted_text = std::wstring(text.begin(), text.end());
+	g_pFontManager->GetTextSize(font, converted_text.c_str(), w, h);
+	out = Vector2D(w, h);
+}
+
+void c_render::get_text_size(HFont font, const char* text, Vector2D& out) {
+	get_text_size(font, std::string_view(text), out);
 }
 
 void c_render::draw_outlined_rect(Vector2D pos, Vector2D size, Color color) {
@@ -140,7 +143,7 @@ void c_render::draw_line(Vector2D start, Vector2D end, Color color) {
 }
 
 void c_render::draw_filled_circle(Vector2D pos, int radius, float points, Color color) {
-	static int texture_id = g_pSurface->CreateNewTextureID(true);
+	static const auto texture_id = g_pSurface->CreateNewTextureID(true);
 	g_pSurface->DrawSetTexture(texture_id);
 	g_pSurface->DrawSetColor(color);
 
@@ -154,21 +157,18 @@ void c_render::draw_filled_circle(Vector2D pos, int radius, float points, Color 
 }
 
 RECT c_render::get_text_size_rect(HFont font, const char* text) {
-	size_t orig_size = strlen(text) + 1;
-	const size_t new_size = 100;
-	size_t converted_chars = 0;
-	wchar_t wcstring[new_size];
-	mbstowcs_s(&converted_chars, wcstring, orig_size, text, _TRUNCATE);
+	RECT out;
+	Vector2D in;
+	get_text_size(font, text, in);
 
-	RECT rect; int x, y;
-	g_pSurface->GetTextSize(font, wcstring, x, y);
-	rect.left = x; rect.bottom = y;
-	rect.right = x;
-	return rect;
+	out.bottom = in.y;
+	out.left = out.right = in.x;
+
+	return out;
 }
 
 void c_render::draw_vertices(Vertex_t* vertices, int num, Color color) {
-	static int texture_id = g_pSurface->CreateNewTextureID(true);
+	static const auto texture_id = g_pSurface->CreateNewTextureID(true);
 	static unsigned char color_buffer[4] = { 255, 255, 255, 255 };
 	g_pSurface->DrawSetTextureRGBA(texture_id, color_buffer, 1, 1);
 	g_pSurface->DrawSetColor(color);
@@ -179,7 +179,8 @@ void c_render::draw_vertices(Vertex_t* vertices, int num, Color color) {
 Vector2D c_render::get_mouse_position() {
 	POINT mouse_position;
 	GetCursorPos(&mouse_position);
-	ScreenToClient(FindWindow(0, _("Counter-Strike: Global Offensive")), &mouse_position);
+	static const char* csgo = _("Counter-Strike: Global Offensive");
+	ScreenToClient(FindWindowA(0, csgo), &mouse_position);
 	return { static_cast<float>(mouse_position.x), static_cast<float>(mouse_position.y) };
 }
 

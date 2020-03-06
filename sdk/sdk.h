@@ -28,6 +28,7 @@
 
 #include "interfaces/IClientEntityList.h"
 #include "other/ITraceFilter.h"
+#include "datatypes/CHandle.h"
 
 #include "interfaces/IBaseClientDll.h"
 #include "interfaces/IVEngineClient.h"
@@ -57,6 +58,7 @@
 #include "interfaces/CGlowObjectManager.h"
 #include "interfaces/IViewRenderBeams.h"
 #include "interfaces/IWeaponSystem.h"
+#include "interfaces/CFontManager.h"
 
 #include "../utils/render/render.h"
 #include "../utils/math/math.h"

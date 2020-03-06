@@ -68,5 +68,6 @@ public:
 	VFUNC(DrawTexturedPolygon(int count, Vertex_t* vertex, bool clip = true), 106, void(__thiscall*)(void*, int, Vertex_t*, bool), count, vertex, clip);
 	CUSTOM_VFUNC(StartDrawing(), "vguimatsurface.dll", "55 8B EC 83 E4 C0 83 EC 38", void(__thiscall*)(void*));
 	CUSTOM_VFUNC(FinishDrawing(), "vguimatsurface.dll", "8B 0D ? ? ? ? 56 C6 05 ? ? ? ? ?", void(__thiscall*)(void*));
+	CUSTOM_VFUNC(DrawColoredText(HFont font, int x, int y, int r, int g, int b, int a, const char* txt), "vguimatsurface.dll", "55 8B EC 81 EC ? ? ? ? 56 57 FF 75 10", void(__thiscall*)(void*, HFont, int, int, int, int, int, int, const char*, const char*), font, x, y, r, g, b, a, txt, nullptr);
 };
 extern ISurface* g_pSurface;

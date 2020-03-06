@@ -197,6 +197,7 @@
     <ClInclude Include="sdk\interfaces\IVModelRender.h" />
     <ClInclude Include="sdk\interfaces\IVRenderView.h" />
     <ClInclude Include="sdk\interfaces\IWeaponSystem.h" />
+    <ClInclude Include="sdk\interfaces\CFontManager.h" />
     <ClInclude Include="sdk\other\checksum_crc.h" />
     <ClInclude Include="sdk\other\checksum_md5.h" />
     <ClInclude Include="sdk\other\ClientClass.h" />
@@ -204,6 +205,7 @@
     <ClInclude Include="sdk\datatypes\matrix3x4_t.h" />
     <ClInclude Include="sdk\datatypes\QAngle.h" />
     <ClInclude Include="sdk\datatypes\Vector.h" />
+    <ClInclude Include="sdk\datatypes\CHandle.h" />
     <ClInclude Include="sdk\definitions.h" />
     <ClInclude Include="sdk\entity_classes.h" />
     <ClInclude Include="sdk\other\CBaseHandle.h" />
@@ -230,7 +232,6 @@
     <ClInclude Include="utils\memory\memory.h" />
     <ClInclude Include="utils\obfuscation\obfuscation.h" />
     <ClInclude Include="sdk\sdk.h" />
-    <ClInclude Include="sdk\CBaseHandle.h" />
     <ClInclude Include="utils\render\render.h" />
     <ClInclude Include="singleton.h" />
     <ClInclude Include="utils\utils.h" />
