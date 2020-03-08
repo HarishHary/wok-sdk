@@ -88,50 +88,50 @@ void matrix_copy(const matrix3x4_t& src, matrix3x4_t& dest) {
 }
 
 void math::normalize_angles(QAngle& angles) {
-	angles.x = std::clamp(remainderf(angles.x, 360.0f), -89.0f, 89.0f);
-	angles.y = std::clamp(remainderf(angles.y, 360.0f), -180.0f, 180.0f);
-	angles.z = std::clamp(remainderf(angles.z, 360.0f), -45.0f, 45.0f);
+	angles.x = std::clamp(remainderf(angles.x, 360.f), -89.f, 89.f);
+	angles.y = std::clamp(remainderf(angles.y, 360.f), -180.f, 180.f);
+	angles.z = std::clamp(remainderf(angles.z, 360.f), -45.f, 45.f);
 }
 
 QAngle math::normalize_angle(QAngle angles) {
-	angles.x = std::clamp(remainderf(angles.x, 360.0f), -89.0f, 89.0f);
-	angles.y = std::clamp(remainderf(angles.y, 360.0f), -180.0f, 180.0f);
-	angles.z = std::clamp(remainderf(angles.z, 360.0f), -45.0f, 45.0f);
+	angles.x = std::clamp(remainderf(angles.x, 360.f), -89.f, 89.f);
+	angles.y = std::clamp(remainderf(angles.y, 360.f), -180.f, 180.f);
+	angles.z = std::clamp(remainderf(angles.z, 360.f), -45.f, 45.f);
 	return angles;
 }
 
 void math::vector_angles(const Vector& forward, QAngle& angles) {
 	float tmp, yaw, pitch;
-	if (forward[2] == 0.0f && forward[0] == 0.0f) {
+	if (forward[2] == 0.f && forward[0] == 0.f) {
 		yaw = 0;
 
-		if (forward[2] > 0.0f)
-			pitch = 90.0f;
+		if (forward[2] > 0.f)
+			pitch = 90.f;
 		else
-			pitch = 270.0f;
+			pitch = 270.f;
 	}
 	else {
-		yaw = (fast_atan2(forward[1], forward[0]) * 180.0f / M_PI);
+		yaw = (fast_atan2(forward[1], forward[0]) * 180.f / M_PI);
 
-		if (yaw < 0.0f)
-			yaw += 360.0f;
+		if (yaw < 0.f)
+			yaw += 360.f;
 
 		float sqin = forward[0] * forward[0] + forward[1] * forward[1];
 		fast_sqrt(&tmp, &sqin);
 
-		pitch = (fast_atan2(-forward[2], tmp) * 180.0f / M_PI);
+		pitch = (fast_atan2(-forward[2], tmp) * 180.f / M_PI);
 
-		if (pitch < 0.0f)
-			pitch += 360.0f;
+		if (pitch < 0.f)
+			pitch += 360.f;
 	}
 
-	pitch -= floorf(pitch / 360.0f + 0.5f) * 360.0f;
-	yaw -= floorf(yaw / 360.0f + 0.5f) * 360.0f;
+	pitch -= floorf(pitch / 360.f + 0.5f) * 360.f;
+	yaw -= floorf(yaw / 360.f + 0.5f) * 360.f;
 
-	if (pitch > 89.0f)
-		pitch = 89.0f;
-	else if (pitch < -89.0f)
-		pitch = -89.0f;
+	if (pitch > 89.f)
+		pitch = 89.f;
+	else if (pitch < -89.f)
+		pitch = -89.f;
 
 	angles[0] = pitch;
 	angles[1] = yaw;
@@ -144,15 +144,15 @@ void math::vector_angles(const Vector& forward, Vector& up, QAngle& angles) {
 
 	float forward_dist = forward.Length2D();
 	if (forward_dist > 0.001f) {
-		angles.x = fast_atan2(-forward.z, forward_dist) * 180 / M_PI;
-		angles.y = fast_atan2(forward.y, forward.x) * 180 / M_PI;
+		angles.x = fast_atan2(-forward.z, forward_dist) * 180.f / M_PI;
+		angles.y = fast_atan2(forward.y, forward.x) * 180.f / M_PI;
 
 		float up_z = (left.y * forward.x) - (left.x * forward.y);
-		angles.z = fast_atan2(left.z, up_z) * 180 / M_PI;
+		angles.z = fast_atan2(left.z, up_z) * 180.f / M_PI;
 	}
 	else {
-		angles.x = fast_atan2(-forward.z, forward_dist) * 180 / M_PI;
-		angles.y = fast_atan2(-left.x, left.y) * 180 / M_PI;
+		angles.x = fast_atan2(-forward.z, forward_dist) * 180.f / M_PI;
+		angles.y = fast_atan2(-left.x, left.y) * 180.f / M_PI;
 		angles.z = 0;
 	}
 }
@@ -160,26 +160,25 @@ void math::vector_angles(const Vector& forward, Vector& up, QAngle& angles) {
 QAngle math::calc_angle(const Vector src, const Vector dst) {
 	auto delta = src - dst;
 	if (delta == Vector(0, 0, 0))
-		return Vector(0, 0, 0);
+		return QAngle(0, 0, 0);
 
 	auto len = delta.Length();
 
-	if (delta.z == 0.0f
-		&& len == 0.0f)
-		return Vector(0, 0, 0);
+	if (delta.z == 0.f
+		&& len == 0.f)
+		return QAngle(0, 0, 0);
 
-	if (delta.y == 0.0f 
-		&& delta.x == 0.0f)
-		return Vector(0, 0, 0);
+	if (delta.y == 0.f 
+		&& delta.x == 0.f)
+		return QAngle(0, 0, 0);
 
 	QAngle angles;
 	angles.x = (fast_asin(delta.z / delta.Length()) * M_RADPI);
 	angles.y = (fast_atan(delta.y / delta.x) * M_RADPI);
+	angles.z = 0.f;
 
-	angles.z = 0.0f;
-	if (delta.x >= 0.0f)  { 
-		angles.y += 180.0f; 
-	}
+	if (delta.x >= 0.f) 
+		angles.y += 180.f; 
 
 	return angles.Clamp();
 }
@@ -266,7 +265,7 @@ float math::segment_to_segment(const Vector s1, const Vector s2, const Vector k1
 bool math::intersect_line_with_bb(Vector& start, Vector& end, Vector& min, Vector& max) {
 	float d1, d2, f;
 	auto start_solid = true;
-	auto t1 = -1.0f, t2 = 1.0f;
+	auto t1 = -1.f, t2 = 1.f;
 
 	const float s[3] = { start.x, start.y, start.z };
 	const float e[3] = { end.x, end.y, end.z };
@@ -285,10 +284,12 @@ bool math::intersect_line_with_bb(Vector& start, Vector& end, Vector& min, Vecto
 			d2 = d1 - e[i];
 		}
 
-		if (d1 > 0.0f && d2 > 0.0f)
+		if (d1 > 0.f 
+			&& d2 > 0.f)
 			return false;
 
-		if (d1 <= 0.0f && d2 <= 0.0f)
+		if (d1 <= 0.f 
+			&& d2 <= 0.f)
 			continue;
 
 		if (d1 > 0)
@@ -296,8 +297,8 @@ bool math::intersect_line_with_bb(Vector& start, Vector& end, Vector& min, Vecto
 
 		if (d1 > d2) {
 			f = d1;
-			if (f < 0.0f)
-				f = 0.0f;
+			if (f < 0.f)
+				f = 0.f;
 
 			f /= d1 - d2;
 			if (f > t1)
@@ -310,7 +311,7 @@ bool math::intersect_line_with_bb(Vector& start, Vector& end, Vector& min, Vecto
 		}
 	}
 
-	return start_solid || (t1 < t2 && t1 >= 0.0f);
+	return start_solid || (t1 < t2 && t1 >= 0.f);
 }
 
 void math::vector_i_transform(const Vector& in1, const matrix3x4_t& in2, Vector& out) {
@@ -387,7 +388,7 @@ QAngle math::matrix_angles(matrix3x4_t& matrix) {
 }
 
 matrix3x4_t math::angle_matrix(const QAngle angles) {
-	matrix3x4_t result{};
+	matrix3x4_t result;
 
 	m128 angle, sin, cos;
 	angle.f[0] = DEG2RAD(angles.x);
@@ -459,13 +460,13 @@ float math::get_fov(const QAngle& view, const QAngle& angle) {
 }
 
 Vector math::make_vector(QAngle angle) {
-	Vector ret{};
-	float pitch = float(angle[0] * 3.141 / 180);
-	float yaw = float(angle[1] * 3.141 / 180);
-	float tmp = float(fast_cos(pitch));
-	ret[0] = float(-tmp * -fast_cos(yaw));
-	ret[1] = float(fast_sin(yaw)*tmp);
-	ret[2] = float(-fast_sin(pitch));
+	Vector ret;
+	auto pitch = angle[0] * 3.141f / 180.f;
+	auto yaw = angle[1] * 3.141f / 180.f;
+	auto tmp = fast_cos(pitch);
+	ret[0] = -tmp * -fast_cos(yaw);
+	ret[1] = fast_sin(yaw)*tmp;
+	ret[2] = -fast_sin(pitch);
 	return ret;
 }
 
@@ -481,11 +482,11 @@ bool math::is_behind_smoke(Vector src, Vector point) {
 
 float math::angle_diff(float dest, float src) {
 	float delta;
-	delta = fmodf(dest - src, 360.0f);
+	delta = fmodf(dest - src, 360.f);
 
 	(dest > src)
-		? (delta >= 180) ? delta -= 360
-		: (delta <= -180) ? delta += 360
+		? (delta >= 180.f) ? delta -= 360.f
+		: (delta <= -180.f) ? delta += 360.f
 		: 0 : 0;
 
 	return delta;
@@ -521,20 +522,20 @@ bool math::can_hit_hitbox(const Vector start, const Vector end, matrix3x4_t* bon
 }
 
 float math::angle_mod(float angle) {
-	return((360.0f / 65536.0f) * ((int32_t)(angle * (65536.0f / 360.0f)) & 65535));
+	return((360.f / 65536.f) * ((int32_t)(angle * (65536.f / 360.f)) & 65535));
 }
 
 float math::approach_angle(float target, float value, float speed) {
 	target = angle_mod(target);
 	value = angle_mod(value);
 
-	float delta = target - value;
+	auto delta = target - value;
 	speed < 0 ? speed = -speed : 0;
 
-	if (delta < -180)
-		delta += 360;
-	else if (delta > 180)
-		delta -= 360;
+	if (delta < -180.f)
+		delta += 360.f;
+	else if (delta > 180.f)
+		delta -= 360.f;
 
 	if (delta > speed)
 		value += speed;
@@ -622,7 +623,7 @@ inline float math::fast_asin(float x) {
 	ret -= 0.2121144;
 	ret *= x;
 	ret += 1.5707288;
-	ret = 3.14159265358979*0.5 - sqrt(1.0 - x)*ret;
+	ret = 3.14159265358979 * 0.5 - sqrt(1.0 - x)*ret;
 	return float(ret - 2 * negate * ret);
 }
 
