@@ -56,14 +56,13 @@ bool c_render::world_to_screen(const Vector& origin, Vector2D& screen) {
 }
 
 void c_render::draw_text(Vector2D pos, Color color, HFont font, bool centered, const char* text) {
-	int x_ = pos.x, y_ = pos.y;
+	int x = pos.x, y = pos.y;
 	if (centered) {
 		Vector2D size;
 		get_text_size(font, text, size);
-		x_ -= size.x / 2;
+		x -= size.x / 2;
 	}
-
-	g_pSurface->DrawColoredText(font, x_, y_, color.red, color.green, color.blue, color.alpha, text);
+	g_pSurface->DrawColoredText(font, x, y, color.red, color.green, color.blue, color.alpha, text);
 }
 
 void c_render::draw_text(Vector2D pos, Color color, HFont font, bool centered, std::string_view text) {
