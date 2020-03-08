@@ -179,9 +179,8 @@ void c_render::draw_vertices(Vertex_t* vertices, int num, Color color) {
 Vector2D c_render::get_mouse_position() {
 	POINT mouse_position;
 	GetCursorPos(&mouse_position);
-	static const char* csgo = _("Counter-Strike: Global Offensive");
-	ScreenToClient(FindWindowA(0, csgo), &mouse_position);
-	return { static_cast<float>(mouse_position.x), static_cast<float>(mouse_position.y) };
+	ScreenToClient(FindWindowA(0, "Counter-Strike: Global Offensive"), &mouse_position);
+	return Vector2D(mouse_position.x, mouse_position.y);
 }
 
 bool c_render::mouse_in_region(int x, int y, int x2, int y2) {
