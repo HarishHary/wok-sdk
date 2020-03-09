@@ -41,5 +41,12 @@ public:
 	VFUNC(RunCommand(C_BasePlayer *player, CUserCmd *cmd, IMoveHelper *movehelper), 19, void(__thiscall*)(void*, C_BasePlayer*, CUserCmd *, IMoveHelper*), player, cmd, movehelper)
 	VFUNC(SetupMove(C_BasePlayer* player, CUserCmd* cmd, IMoveHelper* helper, CMoveData* movedata), 20, void(__thiscall*)(void*, C_BasePlayer*, CUserCmd*, IMoveHelper*, CMoveData*), player, cmd, helper, movedata);
 	VFUNC(FinishMove(C_BasePlayer* player, CUserCmd* cmd, CMoveData* movedata), 21, void(__thiscall*)(void*, C_BasePlayer*, CUserCmd*, CMoveData*), player, cmd, movedata);
+
+	char pad0[8]; 					// 0x0000
+	bool m_bInPrediction;			// 0x0008
+	char pad1[1];					// 0x0009
+	bool m_bEnginePaused;			// 0x000A
+	char pad2[13];					// 0x000B
+	bool m_bFirstTimePredicted;		// 0x0018
 };
 extern IPrediction* g_pPrediction;

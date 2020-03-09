@@ -45,51 +45,51 @@ class C_AnimState {
 public:
 	void* pThis;
 	char pad2[91];
-	C_BaseEntity* pBaseEntity; //0x60
-	C_BaseCombatWeapon* pActiveWeapon; //0x64
-	C_BaseCombatWeapon* pLastActiveWeapon; //0x68
-	float m_flLastClientSideAnimationUpdateTime; //0x6C
-	int m_iLastClientSideAnimationUpdateFramecount; //0x70
-	float m_flDeltaTime; //0x74
-	float m_flEyeYaw; //0x78
-	float m_flEyePitch; //0x7C
-	float m_flGoalFeetYaw; //0x80
-	float m_flCurrentFeetYaw; //0x84
-	float m_flCurrentTorsoYaw; //0x88
-	float m_flUnknownVelocityLean; //0x8C 
-	float m_flLeanAmount; //0x90
-	char pad4[4]; //NaN
-	float m_flFeetCycle; //0x98 
-	float m_flFeetYawRate; //0x9C
+	C_BaseEntity* pBaseEntity; 
+	C_BaseCombatWeapon* pActiveWeapon;
+	C_BaseCombatWeapon* pLastActiveWeapon; 
+	float m_flLastClientSideAnimationUpdateTime;
+	int m_iLastClientSideAnimationUpdateFramecount;
+	float m_flDeltaTime;
+	float m_flEyeYaw;
+	float m_flEyePitch;
+	float m_flGoalFeetYaw;
+	float m_flCurrentFeetYaw;
+	float m_flCurrentTorsoYaw;
+	float m_flUnknownVelocityLean;
+	float m_flLeanAmount;
+	char pad4[4];
+	float m_flFeetCycle;
+	float m_flFeetYawRate;
 	float m_fUnknown2;
-	float m_fDuckAmount; //0xA4
-	float m_fLandingDuckAdditiveSomething; //0xA8
-	float m_fUnknown3; //0xAC
-	Vector m_vOrigin; //0xB0, 0xB4, 0xB8
-	Vector m_vLastOrigin; //0xBC, 0xC0, 0xC4
-	float m_vVelocityX; //0xC8
-	float m_vVelocityY; //0xCC
+	float m_fDuckAmount;
+	float m_fLandingDuckAdditiveSomething;
+	float m_fUnknown3;
+	Vector m_vOrigin;
+	Vector m_vLastOrigin;
+	float m_vVelocityX;
+	float m_vVelocityY;
 	char pad5[4];
-	float m_flUnknownFloat1; //0xD4 
+	float m_flUnknownFloat1;
 	char pad6[8];
-	float m_flUnknownFloat2; //0xE0 
-	float m_flUnknownFloat3; //0xE4 
-	float m_unknown; //0xE8
-	float speed_2d; //0xEC
-	float flUpVelocity; //0xF0
-	float m_flSpeedNormalized; //0xF4 
-	float m_flFeetSpeedForwardsOrSideWays; //0xF8 
-	float m_flFeetSpeedUnknownForwardOrSideways; //0xFC 
-	float m_flTimeSinceStartedMoving; //0x100
-	float m_flTimeSinceStoppedMoving; //0x104
-	unsigned char m_bOnGround; //0x108
-	unsigned char m_bInHitGroundAnimation; //0x109
+	float m_flUnknownFloat2;
+	float m_flUnknownFloat3;
+	float m_unknown;
+	float speed_2d;
+	float flUpVelocity;
+	float m_flSpeedNormalized;
+	float m_flFeetSpeedForwardsOrSideWays;
+	float m_flFeetSpeedUnknownForwardOrSideways;
+	float m_flTimeSinceStartedMoving;
+	float m_flTimeSinceStoppedMoving;
+	bool m_bOnGround;
+	bool m_bInHitGroundAnimation;
 	char pad7[10];
-	float m_flLastOriginZ; //0x114
-	float m_flHeadHeightOrOffsetFromHittingGroundAnimation; //0x118 
-	float m_flStopToFullRunningFraction; //0x11C
+	float m_flLastOriginZ;
+	float m_flHeadHeightOrOffsetFromHittingGroundAnimation;
+	float m_flStopToFullRunningFraction;
 	char pad8[4]; 
-	float m_flUnknownFraction; //0x124 
+	float m_flUnknownFraction;
 	char pad9[4];
 	float m_flUnknown3;
 	char pad10[528];
@@ -97,37 +97,54 @@ public:
 
 class CCSWeaponData {
 public:
-	int8_t pad0[20];
-	int32_t iMaxClip1;
-	int8_t pad1[12];
-	int32_t iMaxReservedAmmo;
-	int8_t pad2[96];
-	char* szHudName;
-	char* szWeaponName;
-	int8_t pad3[56];
-	int32_t iWeaponType;
-	int8_t pad4[4];
-	int32_t iWeaponPrice;
-	int32_t iKillAward;
-	int8_t pad5[20];
-	uint8_t bFullAuto;
-	int8_t pad6[3];
-	int32_t iDamage;
-	float_t flArmorRatio;
-	int32_t iBullets;
-	float_t flPenetration;
-	int8_t pad7[8];
-	float_t flRange;
-	float_t flRangeModifier;
-	int8_t pad8[16];
-	uint8_t bHasSilencer;
-	int8_t pad9[15];
-	float_t flMaxSpeed;
-	float_t flMaxSpeedAlt;
-	int8_t pad10[76];
-	int32_t iRecoilSeed;
-	int8_t pad11[32];
-}; //Size=0x082C
+    char pad0[4];
+    char* consoleName;
+    char pad1[12];
+    int iMaxClip1;
+    int iMaxClip2;
+    int iDefaultClip1;
+    int iDefaultClip2;
+    int iPrimaryReserveAmmoMax;
+    int iSecondaryReserveAmmoMax;
+    char* szWorldModel;
+    char* szViewModel;
+    char* szDroppedModel;
+    char pad2[80];
+    char* szHudName;
+    char* szWeaponName;
+    char pad3[2];
+    bool bIsMeleeWeapon;
+    char pad4[9];
+    float flWeaponWeight;
+    char pad5[40];
+    int iWeaponType;
+    char pad6[4];
+    int iWeaponPrice;
+    int iKillAward;
+    char pad7[4];
+    float flCycleTime;
+    float flCycleTimeAlt;
+    char pad8[8];
+    bool bFullAuto;
+    char pad9[3];
+    int iDamage;
+    float flArmorRatio;
+    int iBullets;
+    float flPenetration;
+    char pad10[8];
+    float flRange;
+    float flRangeModifier;
+    float flThrowVelocity;
+    char pad11[12];
+    bool bHasSilencer;
+    char pad12[11];
+    char* szBulletType;
+    float flMaxSpeed;
+    float flMaxSpeedAlt;
+    char pad13[76];
+    int iRecoilSeed;
+    char pad14[32];
+};
 
 enum CSWeaponType {
 	WEAPONTYPE_KNIFE = 0,

@@ -29,7 +29,7 @@ public:
 	__forceinline float LengthSqr() const
 	{
 		CHECK_VALID(*this);
-		return (this->x*this->x + this->y*this->y + this->z*this->z);
+		return (this->x * this->x + this->y * this->y + this->z * this->z);
 	}
 	bool IsZero(float tolerance = 0.01f) const
 	{
