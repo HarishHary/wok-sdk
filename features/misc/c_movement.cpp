@@ -22,5 +22,5 @@ void c_movement::autostrafe(){
 		|| !(g::cmd->buttons & IN_JUMP))
 		return;
 
-    g::cmd->sidemove = (g::cmd->commandnumber % 2) ? 450.f : -450.f;
+    g::cmd->move.y = g::cmd->commandnumber % 2 ? 450.f : -450.f;
 }

@@ -3,22 +3,9 @@
 
 /*
 	not fully reversed 
-	missing some stuff like
-
-  	if ( v19 != -1 && v19 > 0 && v19 <= a2[3339] )
-  	{
-    	a2[63] = -1;
-    	sub_1A3B10(a2, 0);
-    	(*(void (__thiscall **)(_DWORD *))(*a2 + 552))(a2);
-  	}
-
-	if ( *(float *)(g_pGlobalVars + 20) > 0.0 )
-      ++a2[3339];
-	
-	etc....
-
 	i can complete this but.......
 	its up to u
+	55 8B EC 83 E4 C0 83 EC 34 53 56 8B 75 08 9 (client_panorama.dll)
 */
 
 void c_prediction::run(C_CSPlayer* player, CUserCmd* cmd) {
@@ -26,6 +13,8 @@ void c_prediction::run(C_CSPlayer* player, CUserCmd* cmd) {
         || g_pEngine->IsPlayingDemo()
 		|| !player->is_alive())
 		return;
+
+	!movedata ? movedata = malloc(182) : 0;
 
 	if (!prediction_random_seed || !prediction_player) {
 		prediction_random_seed = *reinterpret_cast<int**>(SIG("client_panorama.dll", "A3 ? ? ? ? 66 0F 6E 86") + 0x1);
@@ -38,16 +27,18 @@ void c_prediction::run(C_CSPlayer* player, CUserCmd* cmd) {
 	backup_curtime = g_pGlobalVars->curtime;
 	backup_frametime = g_pGlobalVars->frametime;
 
-	bool backup_in_prediction = *reinterpret_cast<bool*>(uintptr_t(g_pPrediction) + 0x8);
-	bool backup_is_first_time_predicted = *reinterpret_cast<bool*>(uintptr_t(g_pPrediction) + 0x18);
-
-	*reinterpret_cast<bool*>(uintptr_t(g_pPrediction) + 0x8) = true;
-	*reinterpret_cast<bool*>(uintptr_t(g_pPrediction) + 0x18) = false;
+	bool backup_in_prediction = g_pPrediction->m_bInPrediction;
+	bool backup_is_first_time_predicted = g_pPrediction->m_bFirstTimePredicted;
 
 	g_pGlobalVars->curtime = TICKS_TO_TIME(player->get_tickbase());
-	g_pGlobalVars->frametime = *reinterpret_cast<bool*>(uintptr_t(g_pPrediction) + 0xA) ? 0.f : g_pGlobalVars->interval_per_tick;
+	g_pGlobalVars->frametime = g_pPrediction->m_bEnginePaused ? 0.f : g_pGlobalVars->interval_per_tick;
 
-	*reinterpret_cast<CUserCmd**>(uintptr_t(player) + 0x3334) = cmd;
+	g_pPrediction->m_bInPrediction = true;
+	g_pPrediction->m_bFirstTimePredicted = false;
+
+	*reinterpret_cast<CUserCmd**>(uintptr_t(player) + 0x3338) = cmd;
+	*reinterpret_cast<CUserCmd**>(uintptr_t(player) + 0x3288) = cmd;
+	
 	*prediction_random_seed = cmd ? MD5_PseudoRandom(cmd->commandnumber) & 0x7FFFFFFF : -1;
 	*prediction_player = reinterpret_cast<int>(player);
 
@@ -66,14 +57,13 @@ void c_prediction::run(C_CSPlayer* player, CUserCmd* cmd) {
 	if (cmd->impulse && (!vehicle || player->using_standard_weapons_in_vehicle()))
 		*reinterpret_cast<uint32_t*>(uintptr_t(player) + 0x31FC) = cmd->impulse;
 
-	cmd->buttons |= *reinterpret_cast<uint32_t*>(uintptr_t(player) + 0x3330);
-	int m_nButtons = cmd->buttons;
-	int* m_afButtonLast = reinterpret_cast<int*>(uintptr_t(player) + 0x31F8);
-	int buttonsChanged = m_nButtons ^ *m_afButtonLast;
-	*reinterpret_cast<uint32_t*>(uintptr_t(player) + 0x31EC) = *m_afButtonLast;
-	*m_afButtonLast = m_nButtons;
-	*reinterpret_cast<uint32_t*>(uintptr_t(player) + 0x31F0) = m_nButtons & buttonsChanged;
-	*reinterpret_cast<uint32_t*>(uintptr_t(player) + 0x31F4) = buttonsChanged & ~m_nButtons;
+	int buttons = cmd->buttons;
+	int* buttons_last = reinterpret_cast<int*>(uintptr_t(player) + 0x31F8);
+	int buttons_changed = buttons ^ *buttons_last;
+	*reinterpret_cast<uint32_t*>(uintptr_t(player) + 0x31EC) = *buttons_last;
+	*buttons_last = buttons;
+	*reinterpret_cast<uint32_t*>(uintptr_t(player) + 0x31F0) = buttons & buttons_changed;
+	*reinterpret_cast<uint32_t*>(uintptr_t(player) + 0x31F4) = buttons_changed & ~buttons;
 
 	g_pPrediction->CheckMovingOnGround(player, g_pGlobalVars->frametime);
 
@@ -82,26 +72,31 @@ void c_prediction::run(C_CSPlayer* player, CUserCmd* cmd) {
 	player->physics_run_think(0) ? player->pre_think() : 0;
 
 	auto next_think = reinterpret_cast<int*>(uintptr_t(player) + 0xFC);
-	if (*next_think > 0 && *next_think <= player->get_tickbase()) {
+	if (*next_think
+		&& *next_think != -1
+	 	&& *next_think <= player->get_tickbase()) {
 		*next_think = -1;
+
+		static const auto unknown_fn = reinterpret_cast<void(__thiscall*)(int)>(SIG("client_panorama.dll", "55 8B EC 56 57 8B F9 8B B7 ? ? ? ? 8B"));
+		unknown_fn(0);
+
 		player->think();
 	}
 
-	memset(&movedata, 0, sizeof(CMoveData));
-	g_pPrediction->SetupMove(player, cmd, g_pMoveHelper, &movedata);
+	g_pPrediction->SetupMove(player, cmd, g_pMoveHelper, reinterpret_cast<CMoveData*>(movedata));
 
 	if (vehicle)
-		utils::get_vfunc<void(__thiscall*)(int, C_CSPlayer*, void*)>(vehicle, 5)(uintptr_t(vehicle), player, &movedata);
+		utils::get_vfunc<void(__thiscall*)(int, C_CSPlayer*, void*)>(vehicle, 5)(uintptr_t(vehicle), player, movedata);
 	else
-		g_pMovement->ProcessMovement(player, &movedata);
+		g_pMovement->ProcessMovement(player, reinterpret_cast<CMoveData*>(movedata));
 
-	g_pPrediction->FinishMove(player, cmd, &movedata);
+	g_pPrediction->FinishMove(player, cmd, reinterpret_cast<CMoveData*>(movedata));
 	g_pMoveHelper->ProcessImpacts();
 
 	post_think(player);
 
-	*reinterpret_cast<bool*>(uintptr_t(g_pPrediction) + 0x8) = backup_in_prediction;
-	*reinterpret_cast<bool*>(uintptr_t(g_pPrediction) + 0x18) = backup_is_first_time_predicted;
+	g_pPrediction->m_bInPrediction = backup_in_prediction;
+	g_pPrediction->m_bFirstTimePredicted = backup_is_first_time_predicted;
 }
 
 void c_prediction::end(C_CSPlayer* player, CUserCmd* cmd) {
@@ -114,9 +109,11 @@ void c_prediction::end(C_CSPlayer* player, CUserCmd* cmd) {
 	g_pMoveHelper->SetHost(nullptr);
 	g_pMovement->Reset();
 
-	*reinterpret_cast<uint32_t*>(uintptr_t(player) + 0x3334) = 0;
-	*prediction_random_seed = 0;
+	*reinterpret_cast<uint32_t*>(uintptr_t(player) + 0x3338) = 0;
+	*prediction_random_seed = -1;
 	*prediction_player = 0;
+
+	!g_pPrediction->m_bEnginePaused && g_pGlobalVars->frametime ? player->get_tickbase()++ : 0;
 
 	g_pGlobalVars->curtime = backup_curtime;
 	g_pGlobalVars->frametime = backup_frametime;;

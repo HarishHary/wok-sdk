@@ -5,9 +5,7 @@ class bf_write;
 
 class CUserCmd {
 public:
-	CUserCmd() {
-		memset(this, 0, sizeof(*this));
-	};
+	CUserCmd() { memset(this, 0, sizeof(*this)); };
 	virtual ~CUserCmd() {};
 
 	CRC32_t GetChecksum() const {
@@ -18,9 +16,9 @@ public:
 		CRC32_ProcessBuffer(&crc, &tickcount, sizeof(tickcount));
 		CRC32_ProcessBuffer(&crc, &viewangles, sizeof(viewangles));
 		CRC32_ProcessBuffer(&crc, &aimdirection, sizeof(aimdirection));
-		CRC32_ProcessBuffer(&crc, &forwardmove, sizeof(forwardmove));
-		CRC32_ProcessBuffer(&crc, &sidemove, sizeof(sidemove));
-		CRC32_ProcessBuffer(&crc, &upmove, sizeof(upmove));
+		CRC32_ProcessBuffer(&crc, &move.x, sizeof(move.x));
+		CRC32_ProcessBuffer(&crc, &move.y, sizeof(move.y));
+		CRC32_ProcessBuffer(&crc, &move.z, sizeof(move.z));
 		CRC32_ProcessBuffer(&crc, &buttons, sizeof(buttons));
 		CRC32_ProcessBuffer(&crc, &impulse, sizeof(impulse));
 		CRC32_ProcessBuffer(&crc, &weaponselect, sizeof(weaponselect));
@@ -37,9 +35,7 @@ public:
 	int     tickcount;          // 0x08 the tick the client created this command
 	QAngle  viewangles;         // 0x0C Player instantaneous view angles.
 	Vector  aimdirection;       // 0x18
-	float   forwardmove;        // 0x24
-	float   sidemove;           // 0x28
-	float   upmove;             // 0x2C
+	Vector  move;				// 0x24 0x28 0x2C x - forward | y - side | z - up
 	int     buttons;            // 0x30 Attack button states
 	char    impulse;            // 0x34
 	int     weaponselect;       // 0x38 Current weapon id
@@ -85,10 +81,8 @@ public:
 	CUserCmd*           m_pCommands;
 	CVerifiedUserCmd*   m_pVerifiedCommands;
 
-	VFUNC(GetUserCmd(int sequence_number), 8, CUserCmd*(__thiscall*)(void*, int, int), 0, sequence_number);
-	VFUNC(GetUserCmd(int slot, int sequence_number), 8, CUserCmd*(__thiscall*)(void*, int, int), slot, sequence_number);
-	CVerifiedUserCmd* GetVerifiedCmd(int sequence_number) {
-		return &m_pVerifiedCommands[sequence_number % MULTIPLAYER_BACKUP];
-	}
+	VFUNC(GetUserCmd(int sequence_number), 8, CUserCmd*(__thiscall*)(void*, int, int), 0, sequence_number)
+	VFUNC(GetUserCmd(int slot, int sequence_number), 8, CUserCmd*(__thiscall*)(void*, int, int), slot, sequence_number)
+	CVerifiedUserCmd* GetVerifiedCmd(int sequence_number) { return &m_pVerifiedCommands[sequence_number % MULTIPLAYER_BACKUP]; }
 };
 extern CInput* g_pInput;

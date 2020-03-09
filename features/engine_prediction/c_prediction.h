@@ -6,13 +6,14 @@ private:
 	float backup_curtime;
 	float backup_frametime;
 
-	CMoveData movedata;
+	void* movedata;
 	int* prediction_player;
 	int* prediction_random_seed;
 
-    int post_think(C_CSPlayer* player) { // 56 8B 35 ? ? ? ? 57 8B F9 8B CE 8B 06 FF 90 ? ? ? ? 8B 07 (client_panorama.dll)
+	int post_think(C_CSPlayer* player) { // 56 8B 35 ? ? ? ? 57 8B F9 8B CE 8B 06 FF 90 ? ? ? ? 8B 07 (client_panorama.dll)
 		utils::get_vfunc<void(__thiscall*)(void*)>(g_pModelCache, 33)(g_pModelCache);
-		if (player->is_alive()) {
+		if (player->is_alive()
+			|| *reinterpret_cast<uint32_t*>(uintptr_t(player) + 0x3A81)) {
 			utils::get_vfunc<void(__thiscall*)(void*)>(player, 339)(player);
 
 			player->get_flags() & FL_ONGROUND ? player->get_fall_velocity() = 0.f : 0;
