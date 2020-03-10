@@ -110,7 +110,7 @@ public:
     char* szViewModel;
     char* szDroppedModel;
     char pad2[80];
-    char* szHudName;
+    char* szHudName; 
     char* szWeaponName;
     char pad3[2];
     bool bIsMeleeWeapon;
@@ -141,9 +141,34 @@ public:
     char* szBulletType;
     float flMaxSpeed;
     float flMaxSpeedAlt;
-    char pad13[76];
+    char pad13[4];
+    float flSpread;
+    float flSpreadAlt;
+    float flInaccuracyCrouch;
+    float flInaccuracyCrouchAlt;
+    float flInaccuracyStand;
+    float flInaccuracyStandAlt;
+    float flInaccuracyJumpInitial;
+    float flInaccuracyJump;
+    float flInaccuracyJumpAlt;
+    float flInaccuracyLand;
+    float flInaccuracyLandAlt;
+    float flInaccuracyLadder;
+    float flInaccuracyLadderAlt;
+    float flInaccuracyFire;
+    float flInaccuracyFireAlt;
+    float flInaccuracyMove;
+    float flInaccuracyMoveAlt;
+    float flInaccuracyReload;
     int iRecoilSeed;
-    char pad14[32];
+    float flRecoilAngle;
+    float flRecoilAngleAlt;
+    float flRecoilAngleVariance;
+    float flRecoilAngleVarianceAlt;
+    float flRecoilMagnitude;
+    float flRecoilMagnitudeAlt;
+    float flRecoilMagnitudeVariance;
+    float flRecoilMagnitudeVarianceAlt;
 };
 
 enum CSWeaponType {
