@@ -44,7 +44,7 @@ public:
 class C_AnimState {
 public:
 	void* pThis;
-	char pad2[91];
+	char pad0[91];
 	C_BaseEntity* pBaseEntity; 
 	C_BaseCombatWeapon* pActiveWeapon;
 	C_BaseCombatWeapon* pLastActiveWeapon; 
@@ -58,7 +58,7 @@ public:
 	float m_flCurrentTorsoYaw;
 	float m_flUnknownVelocityLean;
 	float m_flLeanAmount;
-	char pad4[4];
+	char pad1[4];
 	float m_flFeetCycle;
 	float m_flFeetYawRate;
 	float m_fUnknown2;
@@ -69,9 +69,9 @@ public:
 	Vector m_vLastOrigin;
 	float m_vVelocityX;
 	float m_vVelocityY;
-	char pad5[4];
+	char pad2[4];
 	float m_flUnknownFloat1;
-	char pad6[8];
+	char pad3[8];
 	float m_flUnknownFloat2;
 	float m_flUnknownFloat3;
 	float m_unknown;
@@ -84,15 +84,15 @@ public:
 	float m_flTimeSinceStoppedMoving;
 	bool m_bOnGround;
 	bool m_bInHitGroundAnimation;
-	char pad7[10];
+	char pad4[10];
 	float m_flLastOriginZ;
 	float m_flHeadHeightOrOffsetFromHittingGroundAnimation;
 	float m_flStopToFullRunningFraction;
-	char pad8[4]; 
+	char pad5[4]; 
 	float m_flUnknownFraction;
-	char pad9[4];
+	char pad6[4];
 	float m_flUnknown3;
-	char pad10[528];
+	char pad7[528];
 };
 
 class CCSWeaponData {
@@ -172,16 +172,16 @@ public:
 };
 
 enum CSWeaponType {
-	WEAPONTYPE_KNIFE = 0,
-	WEAPONTYPE_PISTOL = 1,
-	WEAPONTYPE_SUBMACHINEGUN = 2,
-	WEAPONTYPE_RIFLE = 3,
-	WEAPONTYPE_SHOTGUN = 4,
-	WEAPONTYPE_SNIPER_RIFLE = 5,
-	WEAPONTYPE_MACHINEGUN = 6,
-	WEAPONTYPE_C4 = 7,
-	WEAPONTYPE_UNKNOWN = 8,
-	WEAPONTYPE_GRENADE = 9
+	WEAPONTYPE_KNIFE,
+	WEAPONTYPE_PISTOL,
+	WEAPONTYPE_SUBMACHINEGUN,
+	WEAPONTYPE_RIFLE,
+	WEAPONTYPE_SHOTGUN,
+	WEAPONTYPE_SNIPER_RIFLE,
+	WEAPONTYPE_MACHINEGUN,
+	WEAPONTYPE_C4,
+	WEAPONTYPE_UNKNOWN,
+	WEAPONTYPE_GRENADE
 };
 
 enum InvalidatePhysicsBits_t {
@@ -260,7 +260,7 @@ enum {
 	EFL_NO_DAMAGE_FORCES = (1 << 31),	// Doesn't accept forces from physics damage
 };
 
-enum EClassIds : int {
+enum EClassIds {
 	CAI_BaseNPC = 0,
 	CAK47,
 	CBaseAnimating,
@@ -645,7 +645,7 @@ enum MoveType_t {
 	MOVETYPE_MAX_BITS = 4
 };
 
-enum EntityFlags : int {
+enum EntityFlags {
 	FL_ONGROUND = (1 << 0),
 	FL_DUCKING = (1 << 1),
 	FL_WATERJUMP = (1 << 2),
