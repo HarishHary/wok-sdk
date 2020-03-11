@@ -261,7 +261,7 @@ enum {
 };
 
 enum EClassIds {
-	CAI_BaseNPC = 0,
+	CAI_BaseNPC,
 	CAK47,
 	CBaseAnimating,
 	CBaseAnimatingOverlay,
@@ -629,7 +629,7 @@ enum ItemDefinitionIndex : short {
 };
 
 enum MoveType_t {
-	MOVETYPE_NONE = 0,
+	MOVETYPE_NONE,
 	MOVETYPE_ISOMETRIC,
 	MOVETYPE_WALK,
 	MOVETYPE_STEP,
@@ -658,7 +658,7 @@ enum EntityFlags {
 };
 
 enum class LifeState {
-	ALIVE = 0,
+	ALIVE,
 	DYING,
 	DEAD,
 	RESPAWNABLE,
