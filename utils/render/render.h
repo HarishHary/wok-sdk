@@ -27,7 +27,6 @@ public:
 	void draw_outlined_rect(Vector2D pos, Vector2D size, Color color);
 	void draw_line(Vector2D start, Vector2D end, Color color);
 	void draw_filled_circle(Vector2D pos, int radius, float points, Color color);
-	RECT get_text_size_rect(HFont font, const char* text);
 	void draw_vertices(Vertex_t* vertices, int num, Color color);
 	Vector2D get_mouse_position();
 	bool mouse_in_region(int x, int y, int x2, int y2);
