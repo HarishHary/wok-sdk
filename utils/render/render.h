@@ -23,6 +23,7 @@ public:
 	void draw_filled_rect(Vector2D pos, Vector2D size, Color color);
 	void get_text_size(HFont font, std::string_view text, Vector2D& out);
 	void get_text_size(HFont font, const char* text, Vector2D& out);
+	Vector2D get_text_size(HFont font, const char* text);
 	void draw_outlined_rect(Vector2D pos, Vector2D size, Color color);
 	void draw_line(Vector2D start, Vector2D end, Color color);
 	void draw_filled_circle(Vector2D pos, int radius, float points, Color color);

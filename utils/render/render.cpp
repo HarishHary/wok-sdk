@@ -122,13 +122,22 @@ void c_render::draw_filled_rect(Vector2D pos, Vector2D size, Color color) {
 
 void c_render::get_text_size(HFont font, std::string_view text, Vector2D& out) {
 	int w, h;
-	auto converted_text = std::wstring(text.begin(), text.end());
-	g_pFontManager->GetTextSize(font, converted_text.c_str(), w, h);
+	wchar_t buf[1024];
+	if (!MultiByteToWideChar(CP_UTF8, 0, text.data(), -1, buf, 1024))
+		return;
+
+	g_pFontManager->GetTextSize(font, buf, w, h);
 	out = Vector2D(w, h);
 }
 
 void c_render::get_text_size(HFont font, const char* text, Vector2D& out) {
 	get_text_size(font, std::string_view(text), out);
+}
+
+Vector2D c_render::get_text_size(HFont font, const char* text) {
+	Vector2D out;
+	get_text_size(font, text, out);
+	return out;
 }
 
 void c_render::draw_outlined_rect(Vector2D pos, Vector2D size, Color color) {
@@ -155,21 +164,10 @@ void c_render::draw_filled_circle(Vector2D pos, int radius, float points, Color 
 	g_pSurface->DrawTexturedPolygon(points, vertices.data());
 }
 
-RECT c_render::get_text_size_rect(HFont font, const char* text) {
-	RECT out;
-	Vector2D in;
-	get_text_size(font, text, in);
-
-	out.bottom = in.y;
-	out.left = out.right = in.x;
-
-	return out;
-}
-
 void c_render::draw_vertices(Vertex_t* vertices, int num, Color color) {
 	static const auto texture_id = g_pSurface->CreateNewTextureID(true);
-	static unsigned char color_buffer[4] = { 255, 255, 255, 255 };
-	g_pSurface->DrawSetTextureRGBA(texture_id, color_buffer, 1, 1);
+	static unsigned char buf[4] = { 255, 255, 255, 255 };
+	g_pSurface->DrawSetTextureRGBA(texture_id, buf, 1, 1);
 	g_pSurface->DrawSetColor(color);
 	g_pSurface->DrawSetTexture(texture_id);
 	g_pSurface->DrawTexturedPolygon(num, vertices);
