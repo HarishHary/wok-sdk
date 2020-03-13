@@ -57,8 +57,8 @@ enum OverrideType_t {
 
 class IVModelRender {
 public:
-	VFUNC(ForcedMaterialOverride(IMaterial *mat = nullptr, OverrideType_t type = OVERRIDE_NORMAL), 1, void(__thiscall*)(void*, IMaterial*, OverrideType_t, int), mat, type, 0);
-	VFUNC(IsForcedMaterialOverride(), 2, bool(__thiscall*)(void*));
-	VFUNC(DrawModelExecute(IMatRenderContext* context, const DrawModelState_t& state, const ModelRenderInfo_t& info, matrix3x4_t* pCustomBoneToWorld = nullptr), 21, void(__thiscall*)(void*, IMatRenderContext*, const DrawModelState_t&, const ModelRenderInfo_t&, matrix3x4_t*), context, state, info, pCustomBoneToWorld);
+	VFUNC(ForcedMaterialOverride(IMaterial *mat = nullptr, OverrideType_t type = OVERRIDE_NORMAL), 1, void(__thiscall*)(void*, IMaterial*, OverrideType_t, int), mat, type, 0)
+	VFUNC(IsForcedMaterialOverride(), 2, bool(__thiscall*)(void*))
+	VFUNC(DrawModelExecute(IMatRenderContext* context, const DrawModelState_t& state, const ModelRenderInfo_t& info, matrix3x4_t* pCustomBoneToWorld = nullptr), 21, void(__thiscall*)(void*, IMatRenderContext*, const DrawModelState_t&, const ModelRenderInfo_t&, matrix3x4_t*), context, state, info, pCustomBoneToWorld)
 };
 extern IVModelRender* g_pModelRender;

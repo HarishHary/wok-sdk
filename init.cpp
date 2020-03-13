@@ -81,16 +81,11 @@ namespace wok {
 
 		interfaces::init();
 
-		netvar_tree = std::make_unique<c_netvar_tree>();
-		netvar_tree->init();
-
 		hooks::init();
 
 		c_event::instance();
 		c_render::instance();
 	}
 
-	void detach() {
-		hooks::undo();
-	}
+	void detach() { hooks::undo(); }
 }

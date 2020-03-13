@@ -27,7 +27,7 @@ public:
 	virtual void            AddBoxOverlay2(const Vector& origin, const Vector& mins, const Vector& max, QAngle const& orientation, const uint8_t* faceColor, const uint8_t* edgeColor, float duration) = 0;
 	virtual void			AddLineOverlay(const Vector& origin, const Vector& dest, int r, int g, int b, int a, float, float) = 0;
 	virtual void            PurgeTextOverlays() = 0;
-	VFUNC(AddCapsuleOverlay(Vector& mins, Vector& maxs, float radius, int r, int g, int b, int a, float duration), 23, void(__thiscall*)(void*, Vector&, Vector&, float&, int, int, int, int, float), mins, maxs, radius, r, g, b, a, duration);
-	VFUNC(AddCapsuleOverlayVisible(Vector& mins, Vector& maxs, float radius, int r, int g, int b, int a, float duration), 24, void(__thiscall*)(void*, Vector&, Vector&, float&, int, int, int, int, float), mins, maxs, radius, r, g, b, a, duration);
+	VFUNC(AddCapsuleOverlay(Vector& mins, Vector& maxs, float radius, int r, int g, int b, int a, float duration), 23, void(__thiscall*)(void*, Vector&, Vector&, float&, int, int, int, int, float), mins, maxs, radius, r, g, b, a, duration)
+	VFUNC(AddCapsuleOverlayVisible(Vector& mins, Vector& maxs, float radius, int r, int g, int b, int a, float duration), 24, void(__thiscall*)(void*, Vector&, Vector&, float&, int, int, int, int, float), mins, maxs, radius, r, g, b, a, duration)
 };
 extern IVDebugOverlay* g_pDebugOverlay;

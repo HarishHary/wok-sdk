@@ -44,10 +44,10 @@ public:
 class C_AnimState {
 public:
 	void* pThis;
-	char pad0[91];
-	C_BaseEntity* pBaseEntity; 
+	char pad2[91];
+	C_BaseEntity* pBaseEntity;
 	C_BaseCombatWeapon* pActiveWeapon;
-	C_BaseCombatWeapon* pLastActiveWeapon; 
+	C_BaseCombatWeapon* pLastActiveWeapon;
 	float m_flLastClientSideAnimationUpdateTime;
 	int m_iLastClientSideAnimationUpdateFramecount;
 	float m_flDeltaTime;
@@ -58,10 +58,10 @@ public:
 	float m_flCurrentTorsoYaw;
 	float m_flUnknownVelocityLean;
 	float m_flLeanAmount;
-	char pad1[4];
+	char pad4[4];
 	float m_flFeetCycle;
 	float m_flFeetYawRate;
-	float m_fUnknown2;
+	float m_flUnknownFloat1;
 	float m_fDuckAmount;
 	float m_fLandingDuckAdditiveSomething;
 	float m_fUnknown3;
@@ -69,30 +69,30 @@ public:
 	Vector m_vLastOrigin;
 	float m_vVelocityX;
 	float m_vVelocityY;
-	char pad2[4];
-	float m_flUnknownFloat1;
-	char pad3[8];
+	char pad5[4];
 	float m_flUnknownFloat2;
+	char pad6[8];
 	float m_flUnknownFloat3;
-	float m_unknown;
+	float m_flUnknownFloat4;
+	float m_flUnknownFloat5;
 	float speed_2d;
 	float flUpVelocity;
 	float m_flSpeedNormalized;
 	float m_flFeetSpeedForwardsOrSideWays;
-	float m_flFeetSpeedUnknownForwardOrSideways;
+	float m_flFeetSpeedUnknownForwardOrSideways; 
 	float m_flTimeSinceStartedMoving;
 	float m_flTimeSinceStoppedMoving;
 	bool m_bOnGround;
 	bool m_bInHitGroundAnimation;
-	char pad4[10];
+	char pad7[6];
+	float m_flTimeSinceInAir;
 	float m_flLastOriginZ;
 	float m_flHeadHeightOrOffsetFromHittingGroundAnimation;
 	float m_flStopToFullRunningFraction;
-	char pad5[4]; 
-	float m_flUnknownFraction;
-	char pad6[4];
-	float m_flUnknown3;
-	char pad7[528];
+	char pad8[4]; 
+	float m_flMagicFraction;
+	char pad9[60];
+	float m_flWorldForce;
 };
 
 class CCSWeaponData {
@@ -189,6 +189,8 @@ enum InvalidatePhysicsBits_t {
 	ANGLES_CHANGED = 0x2,
 	VELOCITY_CHANGED = 0x4,
 	ANIMATION_CHANGED = 0x8,
+	BOUNDS_CHANGED = 0x10,
+	SEQUENCE_CHANGED = 0x20
 };
 
 enum {
@@ -260,7 +262,7 @@ enum {
 	EFL_NO_DAMAGE_FORCES = (1 << 31),	// Doesn't accept forces from physics damage
 };
 
-enum EClassIds {
+enum EClassId {
 	CAI_BaseNPC,
 	CAK47,
 	CBaseAnimating,
@@ -534,6 +536,7 @@ enum EClassIds {
 	CWeaponUMP45,
 	CWeaponUSP,
 	CWeaponXM1014,
+	CWeaponZoneRepulsor,
 	CWorld,
 	CWorldVguiText,
 	DustTrail,
@@ -546,85 +549,87 @@ enum EClassIds {
 };
 
 enum ItemDefinitionIndex : short {
-	WEAPON_DEAGLE = 1,
-	WEAPON_ELITE = 2,
-	WEAPON_FIVESEVEN = 3,
-	WEAPON_GLOCK = 4,
+	WEAPON_NONE = 0,
+	WEAPON_DEAGLE,
+	WEAPON_ELITE,
+	WEAPON_FIVESEVEN,
+	WEAPON_GLOCK,
 	WEAPON_AK47 = 7,
-	WEAPON_AUG = 8,
-	WEAPON_AWP = 9,
-	WEAPON_FAMAS = 10,
-	WEAPON_G3SG1 = 11,
+	WEAPON_AUG,
+	WEAPON_AWP,
+	WEAPON_FAMAS,
+	WEAPON_G3SG1,
 	WEAPON_GALILAR = 13,
-	WEAPON_M249 = 14,
+	WEAPON_M249,
 	WEAPON_M4A1 = 16,
-	WEAPON_MAC10 = 17,
+	WEAPON_MAC10,
 	WEAPON_P90 = 19,
+	WEAPON_ZONE_REPULSOR,
 	WEAPON_MP5SD = 23,
-	WEAPON_UMP45 = 24,
-	WEAPON_XM1014 = 25,
-	WEAPON_BIZON = 26,
-	WEAPON_MAG7 = 27,
-	WEAPON_NEGEV = 28,
-	WEAPON_SAWEDOFF = 29,
-	WEAPON_TEC9 = 30,
-	WEAPON_TASER = 31,
-	WEAPON_HKP2000 = 32,
-	WEAPON_MP7 = 33,
-	WEAPON_MP9 = 34,
-	WEAPON_NOVA = 35,
-	WEAPON_P250 = 36,
-	WEAPON_SHIELD = 37,
-	WEAPON_SCAR20 = 38,
-	WEAPON_SG556 = 39,
-	WEAPON_SSG08 = 40,
-	WEAPON_KNIFEGG = 41,
-	WEAPON_KNIFE = 42,
-	WEAPON_FLASHBANG = 43,
-	WEAPON_HEGRENADE = 44,
-	WEAPON_SMOKEGRENADE = 45,
-	WEAPON_MOLOTOV = 46,
-	WEAPON_DECOY = 47,
-	WEAPON_INCGRENADE = 48,
-	WEAPON_C4 = 49,
+	WEAPON_UMP45,
+	WEAPON_XM1014,
+	WEAPON_BIZON,
+	WEAPON_MAG7,
+	WEAPON_NEGEV,
+	WEAPON_SAWEDOFF,
+	WEAPON_TEC9,
+	WEAPON_TASER,
+	WEAPON_HKP2000,
+	WEAPON_MP7,
+	WEAPON_MP9,
+	WEAPON_NOVA,
+	WEAPON_P250,
+	WEAPON_SHIELD,
+	WEAPON_SCAR20,
+	WEAPON_SG556,
+	WEAPON_SSG08,
+	WEAPON_KNIFEGG,
+	WEAPON_KNIFE,
+	WEAPON_FLASHBANG,
+	WEAPON_HEGRENADE,
+	WEAPON_SMOKEGRENADE,
+	WEAPON_MOLOTOV,
+	WEAPON_DECOY,
+	WEAPON_INCGRENADE,
+	WEAPON_C4,
 	WEAPON_HEALTHSHOT = 57,
 	WEAPON_KNIFE_T = 59,
-	WEAPON_M4A1_SILENCER = 60,
-	WEAPON_USP_SILENCER = 61,
+	WEAPON_M4A1_SILENCER,
+	WEAPON_USP_SILENCER,
 	WEAPON_CZ75A = 63,
-	WEAPON_REVOLVER = 64,
+	WEAPON_REVOLVER,
 	WEAPON_TAGRENADE = 68,
-	WEAPON_FISTS = 69,
-	WEAPON_BREACHCHARGE = 70,
+	WEAPON_FISTS,
+	WEAPON_BREACHCHARGE,
 	WEAPON_TABLET = 72,
 	WEAPON_MELEE = 74,
-	WEAPON_AXE = 75,
-	WEAPON_HAMMER = 76,
+	WEAPON_AXE,
+	WEAPON_HAMMER,
 	WEAPON_SPANNER = 78,
 	WEAPON_KNIFE_GHOST = 80,
-	WEAPON_FIREBOMB = 81,
-	WEAPON_DIVERSION = 82,
-	WEAPON_FRAG_GRENADE = 83,
-	WEAPON_SNOWBALL = 84,
-	WEAPON_BUMPMINE = 85,
+	WEAPON_FIREBOMB,
+	WEAPON_DIVERSION,
+	WEAPON_FRAG_GRENADE,
+	WEAPON_SNOWBALL,
+	WEAPON_BUMPMINE,
 	WEAPON_BAYONET = 500,
 	WEAPON_KNIFE_CSS = 503,
 	WEAPON_KNIFE_FLIP = 505,
-	WEAPON_KNIFE_GUT = 506,
-	WEAPON_KNIFE_KARAMBIT = 507,
-	WEAPON_KNIFE_M9_BAYONET = 508,
-	WEAPON_KNIFE_TACTICAL = 509,
+	WEAPON_KNIFE_GUT,
+	WEAPON_KNIFE_KARAMBIT,
+	WEAPON_KNIFE_M9_BAYONET,
+	WEAPON_KNIFE_TACTICAL,
 	WEAPON_KNIFE_FALCHION = 512,
 	WEAPON_KNIFE_SURVIVAL_BOWIE = 514,
-	WEAPON_KNIFE_BUTTERFLY = 515,
-	WEAPON_KNIFE_PUSH = 516,
-	WEAPON_KNIFE_CORD = 517,
-	WEAPON_KNIFE_CANIS = 518,
-	WEAPON_KNIFE_URSUS = 519,
-	WEAPON_KNIFE_GYPSY_JACKKNIFE = 520,
-	WEAPON_KNIFE_OUTDOOR = 521,
-	WEAPON_KNIFE_STILETTO = 522,
-	WEAPON_KNIFE_WIDOWMAKER = 523,
+	WEAPON_KNIFE_BUTTERFLY,
+	WEAPON_KNIFE_PUSH,
+	WEAPON_KNIFE_CORD,
+	WEAPON_KNIFE_CANIS,
+	WEAPON_KNIFE_URSUS,
+	WEAPON_KNIFE_GYPSY_JACKKNIFE,
+	WEAPON_KNIFE_OUTDOOR,
+	WEAPON_KNIFE_STILETTO,
+	WEAPON_KNIFE_WIDOWMAKER,
 	WEAPON_KNIFE_SKELETON = 525
 };
 
@@ -663,6 +668,17 @@ enum class LifeState {
 	DEAD,
 	RESPAWNABLE,
 	DISCARDBODY,
+};
+
+enum class OBS_MODE {
+	NONE,
+	DEATHCAM,
+	FREEZECAM,
+	FIXED,
+	IN_EYE,
+	CHASE,
+	POI,
+	ROAMING
 };
 
 enum CCSGOAnimStatePoses {

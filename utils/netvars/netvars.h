@@ -1,4 +1,5 @@
 #pragma once
+#include <map>
 
 class RecvProp;
 class RecvTable;
@@ -65,71 +66,67 @@ public:
 	bool m_bInMainList;
 };
 
+class c_netvars {
+private:
+	c_netvars();
 
-class c_netvar_tree {
-	struct node_t;
-
-	using map_type = std::unordered_map<std::string, std::shared_ptr<node_t>>;
-
-	struct node_t {
-		node_t(int offset, RecvProp* prop = nullptr) : offset(offset), prop(prop) {};
-
-		map_type nodes;
-
-		int offset;
+	struct data {
 		RecvProp* prop;
+		uint16_t offset;
 	};
 
-	map_type nodes{};
+	std::unordered_map<uint32_t, data> props;
+
+	void dump_recursive(const char* base_class, RecvTable* table, uint16_t offset);
+	unsigned short get_offset(unsigned int hash) { return props[hash].offset; }
 public:
-	void init();
-
-	template <typename... T> 
-	int get_offset(const char* name, T ... args) {
-		auto& node = nodes[name];
-		return get_offset_recursive(node->nodes, node->offset, args...);
-	}
-
-	RecvProp* get_prop(const char* name, const char* prop_name) {
-		auto& node = nodes[name];
-		return node->nodes[prop_name]->prop;
-	}
-
-private:
-	void populate_nodes(RecvTable* recv_table, map_type* map);
-
-	static int get_offset_recursive(map_type& map, int acc, const char* name) {
-		return acc + map[name]->offset;
-	}
-
-	template <typename... T> 
-	int get_offset_recursive(map_type& map, int acc, const char* name, T ... args) {
-		auto& node = map[name];
-		return get_offset_recursive(node->nodes, acc + node->offset, args...);
-	}
+	static c_netvars& get() { static c_netvars instance; return instance; }
+	RecvProp* get_prop(unsigned int hash) { return props[hash].prop; }
+	__declspec(noinline) static uint16_t get_offset_by_hash(uint32_t hash) { return get().get_offset(hash); }
 };
 
-extern std::unique_ptr<c_netvar_tree> netvar_tree;
+#define NETVAR(func, type, name) \
+	type& func { \
+		static const auto hash = fnv1a_rt(name); \
+		static const auto offset = c_netvars::get_offset_by_hash(hash); \
+		return *reinterpret_cast<type*>(uintptr_t(this) + offset); \
+	}
 
-#define NETPROP(name, name_, prop_name) \
-	static RecvProp* name { \
-		static const auto prop = netvar_tree->get_prop(name_, prop_name); \
+#define PNETVAR(func, type, name) \
+	type* func { \
+		static const auto hash = fnv1a_rt(name); \
+		static const auto offset = c_netvars::get_offset_by_hash(hash); \
+		return reinterpret_cast<type*>(uintptr_t(this) + offset); \
+	}
+
+#define NETVAR_OFFSET(func, type, name, add) \
+	type& func { \
+		static const auto hash = fnv1a_rt(name); \
+		static const auto offset = c_netvars::get_offset_by_hash(hash); \
+		return *reinterpret_cast<type*>(uintptr_t(this) + offset + add); \
+	}
+
+#define NETPROP(func, name) \
+	static RecvProp* func { \
+		static const auto hash = fnv1a_rt(name); \
+		static const auto prop = c_netvars::get().get_prop(hash); \
 		return prop; \
-	};
+	}
 
-#define NETVAR(name, type, ...) \
-	type& name { \
-		static const auto offset = netvar_tree->get_offset(__VA_ARGS__); \
-		return *reinterpret_cast<type*>(reinterpret_cast<uintptr_t>(this) + offset); \
-	};
+#define OFFSET(func, type, offset) \
+	type& func { \
+		static const auto offset_ = offset; \
+		return *reinterpret_cast<type*>(uintptr_t(this) + offset_); \
+	}
 
-#define NETVAR_OFFSET(name, type, add, ...) \
-	type& name { \
-		static const auto offset = netvar_tree->get_offset(__VA_ARGS__); \
-		return *reinterpret_cast<type*>(reinterpret_cast<uintptr_t>(this) + offset + add); \
-	};
+#define POFFSET(func, type, offset) \
+	type* func { \
+		static const auto offset_ = offset; \
+		return reinterpret_cast<type*>(uintptr_t(this) + offset_); \
+	}
 
-#define OFFSET(name, type, offset) \
-	type& name { \
-		return *reinterpret_cast<type*>(reinterpret_cast<uintptr_t>(this) + offset); \
-	};
+#define PPOFFSET(func, type, offset) \
+	type& func { \
+		static const auto offset_ = offset; \
+		return **reinterpret_cast<type**>(uintptr_t(this) + offset_); \
+	}

@@ -60,17 +60,17 @@ class ITexture;
 
 class IMaterialSystem {
 public:
-	VFUNC(OverrideConfig(const MaterialSystem_Config_t& cfg, bool b), 21, bool(__thiscall*)(void*, const MaterialSystem_Config_t&, bool), cfg, b);
-	VFUNC(GetBackBufferFormat(), 36, ImageFormat(__thiscall*)(void*));
-	VFUNC(FindMaterial(const char* name, const char *texgroup, bool complain = true, const char *complainprefix = nullptr), 84, IMaterial*(__thiscall*)(void*, const char*, const char*, bool, const char*), name, texgroup, complain, complainprefix);
-	VFUNC(FirstMaterial(), 86, MaterialHandle_t(__thiscall*)(void*));
-	VFUNC(NextMaterial(MaterialHandle_t h), 87, MaterialHandle_t(__thiscall*)(void*, MaterialHandle_t), h);
-	VFUNC(InvalidMaterial(), 88, MaterialHandle_t(__thiscall*)(void*));
-	VFUNC(GetMaterial(MaterialHandle_t h), 89, IMaterial*(__thiscall*)(void*, MaterialHandle_t), h);
-	VFUNC(GetNumMaterials(), 90, int(__thiscall*)(void*));
-	VFUNC(FindTexture(const char* name, const char *groupname, bool complain), 91, ITexture*(__thiscall*)(void*, const char*, const char*, bool), name, groupname, complain);
-	VFUNC(BeginRenderTargetAllocation(), 94, void(__thiscall*)(void*));
-	VFUNC(EndRenderTargetAllocation(), 95, void(__thiscall*)(void*));
-	VFUNC(GetRenderContext(), 115, IMatRenderContext*(__thiscall*)(void*));
+	VFUNC(OverrideConfig(const MaterialSystem_Config_t& cfg, bool b), 21, bool(__thiscall*)(void*, const MaterialSystem_Config_t&, bool), cfg, b)
+	VFUNC(GetBackBufferFormat(), 36, ImageFormat(__thiscall*)(void*))
+	VFUNC(FindMaterial(const char* name, const char *texgroup, bool complain = true, const char *complainprefix = nullptr), 84, IMaterial*(__thiscall*)(void*, const char*, const char*, bool, const char*), name, texgroup, complain, complainprefix)
+	VFUNC(FirstMaterial(), 86, MaterialHandle_t(__thiscall*)(void*))
+	VFUNC(NextMaterial(MaterialHandle_t h), 87, MaterialHandle_t(__thiscall*)(void*, MaterialHandle_t), h)
+	VFUNC(InvalidMaterial(), 88, MaterialHandle_t(__thiscall*)(void*))
+	VFUNC(GetMaterial(MaterialHandle_t h), 89, IMaterial*(__thiscall*)(void*, MaterialHandle_t), h)
+	VFUNC(GetNumMaterials(), 90, int(__thiscall*)(void*))
+	VFUNC(FindTexture(const char* name, const char *groupname, bool complain), 91, ITexture*(__thiscall*)(void*, const char*, const char*, bool), name, groupname, complain)
+	VFUNC(BeginRenderTargetAllocation(), 94, void(__thiscall*)(void*))
+	VFUNC(EndRenderTargetAllocation(), 95, void(__thiscall*)(void*))
+	VFUNC(GetRenderContext(), 115, IMatRenderContext*(__thiscall*)(void*))
 };
 extern IMaterialSystem* g_pMaterialSystem;

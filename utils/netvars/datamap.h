@@ -1,8 +1,8 @@
 #pragma once
 
 struct inputdata_t;
-typedef enum _fieldtypes
-{
+
+typedef enum _fieldtypes {
 	FIELD_VOID = 0,			// No type or value
 	FIELD_FLOAT,			// Any floating point value
 	FIELD_STRING,			// A string ID (return from ALLOC_STRING)
@@ -32,39 +32,32 @@ typedef enum _fieldtypes
 	FIELD_VMATRIX,			// a vmatrix (output coords are NOT worldspace)
 
 							// NOTE: Use float arrays for local transformations that don't need to be fixed up.
-							FIELD_VMATRIX_WORLDSPACE,// A VMatrix that maps some local space to world space (translation is fixed up on level transitions)
-							FIELD_MATRIX3X4_WORLDSPACE,	// matrix3x4_t that maps some local space to world space (translation is fixed up on level transitions)
+	FIELD_VMATRIX_WORLDSPACE,// A VMatrix that maps some local space to world space (translation is fixed up on level transitions)
+	FIELD_MATRIX3X4_WORLDSPACE,	// matrix3x4_t that maps some local space to world space (translation is fixed up on level transitions)
 
-							FIELD_INTERVAL,			// a start and range floating point interval ( e.g., 3.2->3.6 == 3.2 and 0.4 )
-							FIELD_MODELINDEX,		// a model index
-							FIELD_MATERIALINDEX,	// a material index (using the material precache string table)
+	FIELD_INTERVAL,			// a start and range floating point interval ( e.g., 3.2->3.6 == 3.2 and 0.4 )
+	FIELD_MODELINDEX,		// a model index
+	FIELD_MATERIALINDEX,	// a material index (using the material precache string table)
 
-							FIELD_VECTOR2D,			// 2 floats
+	FIELD_VECTOR2D,			// 2 floats
 
-							FIELD_TYPECOUNT,		// MUST BE LAST
+	FIELD_TYPECOUNT,		// MUST BE LAST
 } fieldtype_t;
 
-class ISaveRestoreOps;
 class C_BaseEntity;
-//
-// Function prototype for all input handlers.
-//
+class ISaveRestoreOps;
 typedef void (C_BaseEntity::*inputfunc_t)(inputdata_t &data);
 
 struct datamap_t;
 class typedescription_t;
 
-enum
-{
+enum {
 	TD_OFFSET_NORMAL = 0,
 	TD_OFFSET_PACKED = 1,
-
-	// Must be last
-	TD_OFFSET_COUNT,
+	TD_OFFSET_COUNT
 };
 
-class typedescription_t
-{
+class typedescription_t {
 public:
 	int32_t fieldType; //0x0000
 	char* fieldName; //0x0004
@@ -76,22 +69,15 @@ public:
 	char pad_0024[24]; //0x0024
 }; //Size: 0x003C
 
-
-   //-----------------------------------------------------------------------------
-   // Purpose: stores the list of objects in the hierarchy
-   //            used to iterate through an object's data descriptions
-   //-----------------------------------------------------------------------------
-struct datamap_t
-{
-	typedescription_t    *dataDesc;
-	int                    dataNumFields;
-	char const            *dataClassName;
-	datamap_t            *baseMap;
+struct datamap_t {
+	typedescription_t*	dataDesc;
+	int                 dataNumFields;
+	char const*			dataClassName;
+	datamap_t*			baseMap;
 
 	bool                chains_validated;
-	// Have the "packed" offsets been computed
 	bool                packed_offsets_computed;
-	int                    packed_size;
+	int                 packed_size;
 };
 
 __declspec(noinline) static unsigned int find_in_data_map(datamap_t *map, const char *name) {
@@ -117,7 +103,6 @@ __declspec(noinline) static unsigned int find_in_data_map(datamap_t *map, const 
 	return 0;
 }
 
-//===============================================
 #define DATAMAP(name, type, netvar_name) \
 	type& name { \
 		static const auto offset = find_in_data_map(this->get_pred_desc_map(), netvar_name); \

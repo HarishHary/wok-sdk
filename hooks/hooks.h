@@ -8,8 +8,8 @@ public:
 	static void init();
 	static void undo();
 private:
-	inline static c_hook<IClientMode> client_mode_hook;
-	inline static c_hook<IVEngineVGui> engine_vgui_hook;
+	inline static c_hook client_mode_hook;
+	inline static c_hook engine_vgui_hook;
 
 	typedef bool(__stdcall* create_move_t)(float, CUserCmd*);
 	inline static create_move_t _create_move;

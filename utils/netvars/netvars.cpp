@@ -1,36 +1,33 @@
 #include "../../sdk/sdk.h"
 
-void c_netvar_tree::init() {
-	if (!g_pClientDll)
-		return;
+c_netvars::c_netvars() {
+	for (auto data = g_pClientDll->GetAllClasses(); data; data = data->m_pNext) {
+		if (!data->m_pRecvTable)
+			continue;
 
-	ClientClass* client_class = g_pClientDll->GetAllClasses();
-	if (!client_class)
-		return;
-
-	while (client_class != nullptr) {
-		auto class_info = std::make_shared<node_t>(0);
-
-		auto recv_table = client_class->m_pRecvTable;
-
-		populate_nodes(recv_table, &class_info->nodes);
-
-		nodes.emplace(recv_table->m_pNetTableName, class_info);
-
-		client_class = client_class->m_pNext;
+		dump_recursive(data->m_pNetworkName, data->m_pRecvTable, 0);
 	}
 }
 
-void c_netvar_tree::populate_nodes(RecvTable* recv_table, map_type* map) {
-	for (int i = 0; i < recv_table->m_nProps; i++) {
-		auto prop = &recv_table->m_pProps[i];
-		auto prop_info = std::make_shared<node_t>(prop->m_Offset, prop);
+void c_netvars::dump_recursive(const char* base_class, RecvTable* table, uint16_t offset) {
+	for (auto i = 0; i < table->m_nProps; i++) {
+		auto prop = &table->m_pProps[i];
+		if (!prop
+			|| isdigit(prop->m_pVarName[0])
+			|| !strcmp(prop->m_pVarName, _("baseclass")))
+			continue;
 
-		if (prop->m_RecvType == DPT_DataTable)
-			populate_nodes(prop->m_pDataTable, &prop_info->nodes);
-
-		map->emplace(prop->m_pVarName, prop_info);;
+		if (prop->m_RecvType == DPT_DataTable
+			&& prop->m_pDataTable != nullptr
+			&& prop->m_pDataTable->m_pNetTableName[0] == 'D') 
+			dump_recursive(base_class, prop->m_pDataTable, offset + prop->m_Offset);
+		
+		char hash_name[256];
+		strcpy_s(hash_name, base_class);
+		strcat_s(hash_name, _("->"));
+		strcat_s(hash_name, prop->m_pVarName);
+		auto hash = fnv1a_rt(static_cast<const char*>(hash_name));
+		
+		props[hash] = { prop, uint16_t(offset + prop->m_Offset) };
 	}
 }
-
-std::unique_ptr<c_netvar_tree> netvar_tree;

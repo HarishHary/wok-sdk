@@ -1,12 +1,12 @@
 #include "hooks.h"
 
 void hooks::init() { 
-	client_mode_hook.setup(g_pClientMode);
-	engine_vgui_hook.setup(g_pEngineVGui);
+	client_mode_hook.init(g_pClientMode);
+	engine_vgui_hook.init(g_pEngineVGui);
 
-	_create_move = client_mode_hook.apply<create_move_t>(24, create_move);
+	_create_move = client_mode_hook.hook<create_move_t>(24, create_move);
 
-	_paint = engine_vgui_hook.apply<paint_t>(14, paint);
+	_paint = engine_vgui_hook.hook<paint_t>(14, paint);
 
 	// // // // // // // // // // // // // // // // // // //
 
@@ -20,8 +20,8 @@ void hooks::init() {
 }
 
 void hooks::undo() {
-	client_mode_hook.unapply(24);
-	engine_vgui_hook.unapply(14);
+	client_mode_hook.unhook_all();
+	engine_vgui_hook.unhook_all();
 }
 
 LRESULT hooks::wnd_proc(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM lparam) {
