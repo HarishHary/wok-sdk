@@ -59,6 +59,7 @@
 #include "interfaces/IViewRenderBeams.h"
 #include "interfaces/IWeaponSystem.h"
 #include "interfaces/CFontManager.h"
+#include "interfaces/CCSPlayerResource.h"
 
 #include "../utils/render/render.h"
 #include "../utils/math/math.h"

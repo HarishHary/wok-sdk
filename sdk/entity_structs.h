@@ -184,7 +184,7 @@ enum CSWeaponType {
 	WEAPONTYPE_GRENADE
 };
 
-enum InvalidatePhysicsBits_t {
+enum InvalidatePhysicsBits {
 	POSITION_CHANGED = 0x1,
 	ANGLES_CHANGED = 0x2,
 	VELOCITY_CHANGED = 0x4,
@@ -262,7 +262,7 @@ enum {
 	EFL_NO_DAMAGE_FORCES = (1 << 31),	// Doesn't accept forces from physics damage
 };
 
-enum EClassId {
+enum ClassId {
 	CAI_BaseNPC,
 	CAK47,
 	CBaseAnimating,
@@ -633,7 +633,7 @@ enum ItemDefinitionIndex : short {
 	WEAPON_KNIFE_SKELETON = 525
 };
 
-enum MoveType_t {
+enum MoveType {
 	MOVETYPE_NONE,
 	MOVETYPE_ISOMETRIC,
 	MOVETYPE_WALK,
@@ -662,23 +662,30 @@ enum EntityFlags {
 	FL_FAKECLIENT = (1 << 8)
 };
 
-enum class LifeState {
-	ALIVE,
-	DYING,
-	DEAD,
-	RESPAWNABLE,
-	DISCARDBODY,
+enum LifeState {
+	LIFE_ALIVE,
+	LIFE_DYING,
+	LIFE_DEAD,
+	LIFE_RESPAWNABLE,
+	LIFE_DISCARDBODY
 };
 
-enum class OBS_MODE {
-	NONE,
-	DEATHCAM,
-	FREEZECAM,
-	FIXED,
-	IN_EYE,
-	CHASE,
-	POI,
-	ROAMING
+enum ObserverMode {
+	OBS_MODE_NONE,
+	OBS_MODE_DEATHCAM,
+	OBS_MODE_FREEZECAM,
+	OBS_MODE_FIXED,
+	OBS_MODE_IN_EYE,
+	OBS_MODE_CHASE,
+	OBS_MODE_POI,
+	OBS_MODE_ROAMING
+};
+
+enum TeamId {
+	TEAM_NONE,
+	TEAM_SPECTATOR,
+	TEAM_TERRORIST,
+	TEAM_COUNTER_TERRORIST
 };
 
 enum CCSGOAnimStatePoses {
@@ -1676,7 +1683,7 @@ enum CCSGOAnimStatePoses {
 	ACT_CSGO_EXIT_LADDER_BOTTOM,
 };
 
-enum PoseParam_t {
+enum PoseParam {
 	STRAFE_YAW,
 	STAND,
 	LEAN_YAW,

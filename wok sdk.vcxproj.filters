@@ -126,6 +126,7 @@
     <ClInclude Include="sdk\interfaces\IInputSystem.h" />
     <ClInclude Include="sdk\interfaces\IClientLeafSystem.h" />
     <ClInclude Include="sdk\interfaces\CGameRules.h" />
+    <ClInclude Include="sdk\interfaces\CCSPlayerResource.h" />
     <ClInclude Include="sdk\interfaces\IMDLCache.h" />
     <ClInclude Include="sdk\interfaces\IVModelRender.h" />
     <ClInclude Include="sdk\other\IMaterial.h" />

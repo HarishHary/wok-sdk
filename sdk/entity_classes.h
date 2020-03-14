@@ -45,7 +45,7 @@ public:
 	VFUNC(get_pred_desc_map(), 17, datamap_t*(__thiscall *)(void*))
 
 	NETVAR(get_rotation(), QAngle, "CBaseEntity->m_angRotation")
-	NETVAR(get_team(), int, "CBaseEntity->m_iTeamNum")
+	NETVAR(get_team(), TeamId, "CBaseEntity->m_iTeamNum")
 	NETVAR(get_origin(), Vector, "CBaseEntity->m_vecOrigin")
 	NETVAR(get_owner_entity(), CHandle<C_CSPlayer>, "CBaseEntity->m_hOwnerEntity")
 
@@ -145,7 +145,7 @@ public:
 	OFFSET(get_spawn_time(), float, 0xA360)
 
 	NETVAR(get_fall_velocity(), float, "CBasePlayer->m_flFallVelocity")
-	NETVAR(get_observer_mode(), OBS_MODE, "CBasePlayer->m_iObserverMode")
+	NETVAR(get_observer_mode(), ObserverMode, "CBasePlayer->m_iObserverMode")
 	NETVAR(get_observer_target(), CHandle<C_CSPlayer>, "CBasePlayer->m_hObserverTarget")
 	NETVAR(get_flags(), int, "CBasePlayer->m_fFlags")
 	NETVAR(get_velocity(), Vector, "CBasePlayer->m_vecVelocity[0]")
@@ -166,7 +166,7 @@ public:
 	CUSTOM_VFUNC(physics_run_think(int index), "client_panorama.dll", "55 8B EC 83 EC 10 53 56 57 8B F9 8B 87", bool(__thiscall*)(void*, int), index)
 	CUSTOM_VFUNC(select_item(const char* string, int sub_type = 0), "client_panorama.dll", "55 8B EC 56 8B F1 ? ? ? 85 C9 74 71 8B 06", bool(__thiscall*)(void*, const char*, int), string, sub_type)
 
-	bool is_alive() { return get_life_state() == LifeState::ALIVE; }
+	bool is_alive() { return get_life_state() == LIFE_ALIVE; }
 	
 	Vector get_eye_position() {
 		Vector out;

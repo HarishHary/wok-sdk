@@ -172,6 +172,7 @@
     <ClInclude Include="sdk\datatypes\VMatrix.h" />
     <ClInclude Include="sdk\interfaces\CClientState.h" />
     <ClInclude Include="sdk\interfaces\CGameRules.h" />
+    <ClInclude Include="sdk\interfaces\CCSPlayerResource.h" />
     <ClInclude Include="sdk\interfaces\CGlobalVarsBase.h" />
     <ClInclude Include="sdk\interfaces\CGlowObjectManager.h" />
     <ClInclude Include="sdk\interfaces\IClientLeafSystem.h" />
