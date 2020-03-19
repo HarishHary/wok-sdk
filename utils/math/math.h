@@ -2,15 +2,14 @@
 
 class math {
 public:
-	__forceinline static float fast_sqrt(float x) {
-		unsigned int i = *(unsigned int*)&x;
-		i += 127 << 23;
-		i >>= 1;
-		return *(float*)&i;
+	inline static float fast_sqrt(float in) {
+		float out;
+		sse_fast_sqrt(&out, &in);
+		return out;
 	}
 
-	template <typename t>
-	__forceinline static t lerp(const t& from, const t& to, float percent) {
+	template <typename T>
+	inline static T lerp(const T from, const T to, float percent) {
 		return from + (to - from) * percent;
 	}
 
@@ -30,7 +29,7 @@ public:
 	static matrix3x4_t angle_matrix(const QAngle angles);
 	static Vector vector_rotate(const Vector& in1, const Vector& in2);
 	static void vector_i_rotate(const Vector& in1, const matrix3x4_t& in2, Vector& out);
-	static void angle_vectors(const QAngle& angles, Vector *forward, Vector *right = nullptr, Vector *up = nullptr);
+	static void angle_vectors(const QAngle& angles, Vector* forward, Vector* right = nullptr, Vector* up = nullptr);
 	static float get_fov(const QAngle& view, const QAngle& angle);
 	static Vector make_vector(QAngle angle);
 	static bool is_behind_smoke(Vector src, Vector point);
@@ -41,10 +40,10 @@ public:
 	static void random_seed(int seed);
 	static float random_float(float min, float max);
 	static Vector project_point(Vector origin, double yaw, double distance);
-	static void angle_matrix(const QAngle &angles, const Vector &position, matrix3x4_t& matrix_out);
+	static void angle_matrix(const QAngle& angles, const Vector& position, matrix3x4_t& matrix_out);
 	static void matrix_multiply(matrix3x4_t& in1, const matrix3x4_t& in2);
 
-	static inline void fast_sqrt(float * __restrict p_out, float * __restrict p_in);
+	static void sse_fast_sqrt(float* __restrict p_out, float* __restrict p_in);
 	static float fast_asin(float x);
 	static float fast_atan2(float y, float x);
 	static float fast_atan(float x);

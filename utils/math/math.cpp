@@ -116,8 +116,8 @@ void math::vector_angles(const Vector& forward, QAngle& angles) {
 		if (yaw < 0.f)
 			yaw += 360.f;
 
-		float sqin = forward[0] * forward[0] + forward[1] * forward[1];
-		fast_sqrt(&tmp, &sqin);
+		auto sqin = forward[0] * forward[0] + forward[1] * forward[1];
+		sse_fast_sqrt(&tmp, &sqin);
 
 		pitch = (fast_atan2(-forward[2], tmp) * 180.f / M_PI);
 
@@ -142,12 +142,12 @@ void math::vector_angles(const Vector& forward, Vector& up, QAngle& angles) {
 	Vector left = CrossProduct(up, forward);
 	left.NormalizeInPlace();
 
-	float forward_dist = forward.Length2D();
+	auto forward_dist = forward.Length2D();
 	if (forward_dist > 0.001f) {
 		angles.x = fast_atan2(-forward.z, forward_dist) * 180.f / M_PI;
 		angles.y = fast_atan2(forward.y, forward.x) * 180.f / M_PI;
 
-		float up_z = (left.y * forward.x) - (left.x * forward.y);
+		auto up_z = (left.y * forward.x) - (left.x * forward.y);
 		angles.z = fast_atan2(left.z, up_z) * 180.f / M_PI;
 	}
 	else {
@@ -471,9 +471,7 @@ Vector math::make_vector(QAngle angle) {
 }
 
 bool math::is_behind_smoke(Vector src, Vector point) {
-	typedef bool(__cdecl* fn) (Vector, Vector);
-	static const auto line_goes_through_smoke_fn = reinterpret_cast<fn>(SIG("client_panorama.dll", "55 8B EC 83 EC 08 8B 15 ? ? ? ? 0F 57 C0"));
-	
+	static const auto line_goes_through_smoke_fn = reinterpret_cast<bool(__cdecl*)(Vector, Vector)>(SIG("client_panorama.dll", "55 8B EC 83 EC 08 8B 15 ? ? ? ? 0F 57 C0"));
 	if (!line_goes_through_smoke_fn)
 		return false;
 
@@ -548,13 +546,13 @@ float math::approach_angle(float target, float value, float speed) {
 }
 
 void math::random_seed(int seed) {
-	static const auto random_seed = reinterpret_cast<void(*)(int)>(GetProcAddress(GetModuleHandleA("vstdlib.dll"), "RandomSeed"));
-	random_seed(seed);
+	static const auto random_seed_fn = reinterpret_cast<void(*)(int)>(GetProcAddress(GetModuleHandleA("vstdlib.dll"), "RandomSeed"));
+	random_seed_fn(seed);
 }
 
 float math::random_float(float min, float max) {
-	static const auto random_float = reinterpret_cast<float(*)(float, float)>(GetProcAddress(GetModuleHandleA("vstdlib.dll"), "RandomFloat"));
-	return random_float(min, max);
+	static const auto random_float_fn = reinterpret_cast<float(*)(float, float)>(GetProcAddress(GetModuleHandleA("vstdlib.dll"), "RandomFloat"));
+	return random_float_fn(min, max);
 }
 
 Vector math::project_point(Vector origin, double yaw, double distance) {
@@ -609,11 +607,11 @@ void math::matrix_multiply(matrix3x4_t& in1, const matrix3x4_t& in2) {
 	in1 = out;
 }
 
-inline void math::fast_sqrt(float * __restrict p_out, float * __restrict p_in) {
+void math::sse_fast_sqrt(float * __restrict p_out, float * __restrict p_in) {
 	_mm_store_ss(p_out, _mm_sqrt_ss(_mm_load_ss(p_in)));
 }
 
-inline float math::fast_asin(float x) {
+float math::fast_asin(float x) {
 	const auto negate = float(x < 0);
 	x = abs(x);
 	auto ret = -0.0187293;
@@ -627,7 +625,7 @@ inline float math::fast_asin(float x) {
 	return float(ret - 2 * negate * ret);
 }
 
-inline float math::fast_atan2(const float y, const float x) {
+float math::fast_atan2(const float y, const float x) {
 	const auto xabs = fabs(x);
 	const auto yabs = fabs(y);
 	double t3 = xabs;
@@ -653,7 +651,7 @@ inline float math::fast_atan2(const float y, const float x) {
 	return float(t3);
 }
 
-inline float math::fast_atan(const float x) {
+float math::fast_atan(const float x) {
 	return fast_atan2(x, float(1));
 }
 
@@ -670,7 +668,7 @@ float math::fast_sin(float x) {
 	return float(x * y);
 }
 
-inline float math::fast_cos(const float x) {
+float math::fast_cos(const float x) {
 	return fast_sin(x + 1.5708f);
 }
 
@@ -689,7 +687,7 @@ float math::fast_acos(float x) {
 	return negate * 3.14159265358979 + ret;
 }
 
-inline void math::fast_rsqrt(float a, float* out) {
+void math::fast_rsqrt(float a, float* out) {
 	const auto xx = _mm_load_ss(&a);
 	auto xr = _mm_rsqrt_ss(xx);
 	auto xt = _mm_mul_ss(xr, xr);
