@@ -479,12 +479,11 @@ bool math::is_behind_smoke(Vector src, Vector point) {
 }
 
 float math::angle_diff(float dest, float src) {
-	float delta;
-	delta = fmodf(dest - src, 360.f);
+	auto delta = fmodf(dest - src, 360.f);
 
-	(dest > src)
-		? (delta >= 180.f) ? delta -= 360.f
-		: (delta <= -180.f) ? delta += 360.f
+	dest > src
+		? delta >= 180.f ? delta -= 360.f
+		: delta <= -180.f ? delta += 360.f
 		: 0 : 0;
 
 	return delta;
