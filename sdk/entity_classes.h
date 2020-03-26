@@ -15,16 +15,16 @@ public:
 		return solve_dependencies_fn(this, pos, q, bone_array, computed);
 	}
 	void clear_targets() {
-		int v112 = 0;
-		int v70 = *(int*)((uintptr_t)this + 4080);
+		auto i = 0;
+		auto count = *reinterpret_cast<int*>(uintptr_t(this) + 4080);
 
-		if (v70 > 0) {
-			uintptr_t v60 = (uintptr_t)((uintptr_t)this + 208);
+		if (count > 0) {
+			auto target = reinterpret_cast<int*>(uintptr_t(this) + 208);
 			do {
-				*(int*)(v60) = -9999;
-				v60 += 340;
-				++v112;
-			} while (v112 < v70);
+				*target = -9999;
+				target += 340;
+				++i;
+			} while (i < count);
 		}
 	}
 };
