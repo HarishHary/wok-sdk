@@ -79,7 +79,9 @@ public:
 	OFFSET(get_most_recent_model_bone_counter(), int, 0x268C + 0x4)
 	OFFSET(get_last_setup_bones_time(), float, 0x2920 + 0x4)
 	OFFSET(get_ik_context(), IKContext*, 0x266C + 0x4)
-
+	OFFSET(get_setup_bones_pos(), Vector, 0xA68 + 0x4)
+	OFFSET(get_setup_bones_quaternion(), Quaternion, 0x166C + 0x4)
+	
 	OFFSET(get_take_damage(), int, 0x280)
 
 	DATAMAP(get_effects(), int, "m_fEffects")
