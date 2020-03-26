@@ -22,7 +22,7 @@ public:
 			auto target = reinterpret_cast<int*>(uintptr_t(this) + 208);
 			do {
 				*target = -9999;
-				target += 340;
+				target += 85;
 				++i;
 			} while (i < count);
 		}
