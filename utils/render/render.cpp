@@ -81,14 +81,6 @@ void c_render::draw_circle(Vector2D pos, int radius, Color color) {
 	g_pSurface->DrawOutlinedCircle(pos.x, pos.y, radius, 2000);
 }
 
-void c_render::draw_textured_polygon(int n, Vertex_t* vertices, Color color) {
-	static const auto texture_id = g_pSurface->CreateNewTextureID(true);
-	static unsigned char buf[4] = { 255, 255, 255, 255 };
-	g_pSurface->DrawSetColor(color);
-	g_pSurface->DrawSetTexture(texture_id);
-	g_pSurface->DrawTexturedPolygon(n, vertices);
-}
-
 void c_render::draw_rounded_filled_rect(Vector2D pos, Vector2D size, float radius, Color color) {
 	Vector2D add = { 0, 0 };
 	static Vertex_t vertices[24];
@@ -252,5 +244,5 @@ void c_render::draw_box(Vector origin, Vector2D size, Color color) {
 
 void c_render::draw_filled_triangle(std::array<Vector2D, 3> points, Color color) {
 	std::array<Vertex_t, 3> vertices{ Vertex_t(points.at(0)), Vertex_t(points.at(1)), Vertex_t(points.at(2)) };
-	draw_textured_polygon(3, vertices.data(), color);
+	draw_vertices(vertices.data(), 3, color);
 };

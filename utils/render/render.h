@@ -18,7 +18,6 @@ public:
 	void draw_text(Vector2D pos, Color color, HFont font, bool centered, std::string_view text);
 	void draw_gradient_rect(Vector2D pos, Vector2D size, Color c, Color c_, bool horizontal);
 	void draw_circle(Vector2D pos, int radius, Color color);
-	void draw_textured_polygon(int n, Vertex_t* vertices, Color color);
 	void draw_rounded_filled_rect(Vector2D pos, Vector2D size, float radius, Color color);
 	void draw_filled_rect(Vector2D pos, Vector2D size, Color color);
 	void get_text_size(HFont font, std::string_view text, Vector2D& out);
