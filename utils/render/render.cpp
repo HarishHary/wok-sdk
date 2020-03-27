@@ -180,9 +180,11 @@ Vector2D c_render::get_mouse_position() {
 	return Vector2D(mouse_position.x, mouse_position.y);
 }
 
-bool c_render::mouse_in_region(int x, int y, int x2, int y2) {
-	if (get_mouse_position().x > x && get_mouse_position().y > y
-		&& get_mouse_position().x < x2 + x && get_mouse_position().y < y2 + y)
+bool c_render::mouse_in_region(Vector2D pos, Vector2D size) {
+	if (get_mouse_position().x > pos.x
+		&& get_mouse_position().y > pos.y
+		&& get_mouse_position().x < pos.x + size.x 
+		&& get_mouse_position().y < pos.y + size.y)
 		return true;
 
 	return false;

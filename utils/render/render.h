@@ -29,7 +29,7 @@ public:
 	void draw_filled_circle(Vector2D pos, int radius, float points, Color color);
 	void draw_vertices(Vertex_t* vertices, int num, Color color);
 	Vector2D get_mouse_position();
-	bool mouse_in_region(int x, int y, int x2, int y2);
+	bool mouse_in_region(Vector2D pos, Vector2D size);
 	void draw_box(Vector origin, Vector2D size, Color color);
 	void draw_filled_triangle(std::array<Vector2D, 3>points, Color color);
 };
