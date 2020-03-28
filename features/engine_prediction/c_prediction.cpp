@@ -1,12 +1,7 @@
 #include "c_prediction.h"
 #include "../features.h"
 
-/*
-	not fully reversed 
-	i can complete this but.......
-	its up to u
-	55 8B EC 83 E4 C0 83 EC 34 53 56 8B 75 08 9 (client_panorama.dll)
-*/
+// 55 8B EC 83 E4 C0 83 EC 34 53 56 8B 75 08 9 (client_panorama.dll)
 
 void c_prediction::run(C_CSPlayer* player, CUserCmd* cmd) {
 	if (!player 
@@ -91,9 +86,9 @@ void c_prediction::run(C_CSPlayer* player, CUserCmd* cmd) {
 		g_pMovement->ProcessMovement(player, reinterpret_cast<CMoveData*>(movedata));
 
 	g_pPrediction->FinishMove(player, cmd, reinterpret_cast<CMoveData*>(movedata));
-	g_pMoveHelper->ProcessImpacts();
+	//g_pMoveHelper->ProcessImpacts();
 
-	post_think(player);
+	//post_think(player);
 
 	g_pPrediction->m_bInPrediction = backup_in_prediction;
 	g_pPrediction->m_bFirstTimePredicted = backup_is_first_time_predicted;
@@ -113,7 +108,7 @@ void c_prediction::end(C_CSPlayer* player, CUserCmd* cmd) {
 	*prediction_random_seed = -1;
 	*prediction_player = 0;
 
-	!g_pPrediction->m_bEnginePaused && g_pGlobalVars->frametime ? player->get_tickbase()++ : 0;
+	//!g_pPrediction->m_bEnginePaused && g_pGlobalVars->frametime ? player->get_tickbase()++ : 0;
 
 	g_pGlobalVars->curtime = backup_curtime;
 	g_pGlobalVars->frametime = backup_frametime;;
