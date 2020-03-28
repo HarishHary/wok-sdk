@@ -9,7 +9,8 @@ void c_prediction::run(C_CSPlayer* player, CUserCmd* cmd) {
 		|| !player->is_alive())
 		return;
 
-	!movedata ? movedata = malloc(182) : 0;
+	if (!movedata)
+		movedata = g_pMemAlloc->Alloc(182u);
 
 	if (!prediction_random_seed || !prediction_player) {
 		prediction_random_seed = *reinterpret_cast<int**>(SIG("client_panorama.dll", "A3 ? ? ? ? 66 0F 6E 86") + 0x1);
@@ -22,8 +23,8 @@ void c_prediction::run(C_CSPlayer* player, CUserCmd* cmd) {
 	backup_curtime = g_pGlobalVars->curtime;
 	backup_frametime = g_pGlobalVars->frametime;
 
-	bool backup_in_prediction = g_pPrediction->m_bInPrediction;
-	bool backup_is_first_time_predicted = g_pPrediction->m_bFirstTimePredicted;
+	auto backup_in_prediction = g_pPrediction->m_bInPrediction;
+	auto backup_is_first_time_predicted = g_pPrediction->m_bFirstTimePredicted;
 
 	g_pGlobalVars->curtime = TICKS_TO_TIME(player->get_tickbase());
 	g_pGlobalVars->frametime = g_pPrediction->m_bEnginePaused ? 0.f : g_pGlobalVars->interval_per_tick;
@@ -52,9 +53,9 @@ void c_prediction::run(C_CSPlayer* player, CUserCmd* cmd) {
 	if (cmd->impulse && (!vehicle || player->using_standard_weapons_in_vehicle()))
 		*reinterpret_cast<uint32_t*>(uintptr_t(player) + 0x31FC) = cmd->impulse;
 
-	int buttons = cmd->buttons;
-	int* buttons_last = reinterpret_cast<int*>(uintptr_t(player) + 0x31F8);
-	int buttons_changed = buttons ^ *buttons_last;
+	auto buttons = cmd->buttons;
+	auto buttons_last = reinterpret_cast<int*>(uintptr_t(player) + 0x31F8);
+	auto buttons_changed = buttons ^ *buttons_last;
 	*reinterpret_cast<uint32_t*>(uintptr_t(player) + 0x31EC) = *buttons_last;
 	*buttons_last = buttons;
 	*reinterpret_cast<uint32_t*>(uintptr_t(player) + 0x31F0) = buttons & buttons_changed;
@@ -86,9 +87,9 @@ void c_prediction::run(C_CSPlayer* player, CUserCmd* cmd) {
 		g_pMovement->ProcessMovement(player, reinterpret_cast<CMoveData*>(movedata));
 
 	g_pPrediction->FinishMove(player, cmd, reinterpret_cast<CMoveData*>(movedata));
-	//g_pMoveHelper->ProcessImpacts();
+	g_pMoveHelper->ProcessImpacts();
 
-	//post_think(player);
+	post_think(player);
 
 	g_pPrediction->m_bInPrediction = backup_in_prediction;
 	g_pPrediction->m_bFirstTimePredicted = backup_is_first_time_predicted;
@@ -108,7 +109,7 @@ void c_prediction::end(C_CSPlayer* player, CUserCmd* cmd) {
 	*prediction_random_seed = -1;
 	*prediction_player = 0;
 
-	//!g_pPrediction->m_bEnginePaused && g_pGlobalVars->frametime ? player->get_tickbase()++ : 0;
+	!g_pPrediction->m_bEnginePaused && g_pGlobalVars->frametime ? player->get_tickbase()++ : 0;
 
 	g_pGlobalVars->curtime = backup_curtime;
 	g_pGlobalVars->frametime = backup_frametime;;
