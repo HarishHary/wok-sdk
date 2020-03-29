@@ -1,7 +1,7 @@
 #include "c_prediction.h"
 #include "../features.h"
 
-// 55 8B EC 83 E4 C0 83 EC 34 53 56 8B 75 08 9 (client_panorama.dll)
+/* 55 8B EC 83 E4 C0 83 EC 34 53 56 8B 75 08 9 (client_panorama.dll) */
 
 void c_prediction::run(C_CSPlayer* player, CUserCmd* cmd) {
 	if (!player 
@@ -9,8 +9,7 @@ void c_prediction::run(C_CSPlayer* player, CUserCmd* cmd) {
 		|| !player->is_alive())
 		return;
 
-	if (!movedata)
-		movedata = g_pMemAlloc->Alloc(182u);
+	memset(&move_data, 0, sizeof(move_data));
 
 	if (!prediction_random_seed || !prediction_player) {
 		prediction_random_seed = *reinterpret_cast<int**>(SIG("client_panorama.dll", "A3 ? ? ? ? 66 0F 6E 86") + 0x1);
@@ -38,6 +37,12 @@ void c_prediction::run(C_CSPlayer* player, CUserCmd* cmd) {
 	*prediction_random_seed = cmd ? MD5_PseudoRandom(cmd->commandnumber) & 0x7FFFFFFF : -1;
 	*prediction_player = reinterpret_cast<int>(player);
 
+	auto unk0 = *reinterpret_cast<uint32_t*>(uintptr_t(player) + 0x3334);
+	auto unk1 = *reinterpret_cast<uint32_t*>(uintptr_t(player) + 0x3330);
+
+	cmd->buttons |= unk0;
+	cmd->buttons &= ~unk1;
+	
 	g_pMoveHelper->SetHost(player);
 	g_pMovement->StartTrackPredictionErrors(player);
 
@@ -79,14 +84,14 @@ void c_prediction::run(C_CSPlayer* player, CUserCmd* cmd) {
 		player->think();
 	}
 
-	g_pPrediction->SetupMove(player, cmd, g_pMoveHelper, reinterpret_cast<CMoveData*>(movedata));
+	g_pPrediction->SetupMove(player, cmd, g_pMoveHelper, &move_data);
 
 	if (vehicle)
-		utils::get_vfunc<void(__thiscall*)(int, C_CSPlayer*, void*)>(vehicle, 5)(uintptr_t(vehicle), player, movedata);
+		utils::get_vfunc<void(__thiscall*)(int, C_CSPlayer*, CMoveData*)>(vehicle, 5)(uintptr_t(vehicle), player, &move_data);
 	else
-		g_pMovement->ProcessMovement(player, reinterpret_cast<CMoveData*>(movedata));
+		g_pMovement->ProcessMovement(player, &move_data);
 
-	g_pPrediction->FinishMove(player, cmd, reinterpret_cast<CMoveData*>(movedata));
+	g_pPrediction->FinishMove(player, cmd, &move_data);
 	g_pMoveHelper->ProcessImpacts();
 
 	post_think(player);
