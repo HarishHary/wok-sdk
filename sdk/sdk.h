@@ -43,6 +43,9 @@
 #include "interfaces/IMoveHelper.h"
 #include "interfaces/IGameMovement.h"
 #include "interfaces/IMemAlloc.h"
+
+#include "datatypes/KeyValues.h"
+
 #include "interfaces/IVDebugOverlay.h"
 #include "interfaces/ICvar.h"
 #include "interfaces/IGameEventManager.h"

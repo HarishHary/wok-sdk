@@ -82,6 +82,7 @@
       <Filter>utilities</Filter>
     </ClInclude>
     <ClInclude Include="sdk\datatypes\CUtlVector.h" />
+    <ClInclude Include="sdk\datatypes\KeyValues.h" />
     <ClInclude Include="sdk\datatypes\QAngle.h" />
     <ClInclude Include="sdk\datatypes\matrix3x4_t.h" />
     <ClInclude Include="sdk\other\IClientEntity.h" />

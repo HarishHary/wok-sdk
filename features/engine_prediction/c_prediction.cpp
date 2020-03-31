@@ -9,7 +9,7 @@ void c_prediction::run(C_CSPlayer* player, CUserCmd* cmd) {
 		|| !player->is_alive())
 		return;
 
-	memset(&move_data, 0, sizeof(move_data));
+	!move_data ? move_data = g_pMemAlloc->Alloc(182u) : 0;
 
 	if (!prediction_random_seed || !prediction_player) {
 		prediction_random_seed = *reinterpret_cast<int**>(SIG("client_panorama.dll", "A3 ? ? ? ? 66 0F 6E 86") + 0x1);
@@ -84,14 +84,14 @@ void c_prediction::run(C_CSPlayer* player, CUserCmd* cmd) {
 		player->think();
 	}
 
-	g_pPrediction->SetupMove(player, cmd, g_pMoveHelper, &move_data);
+	g_pPrediction->SetupMove(player, cmd, g_pMoveHelper, reinterpret_cast<CMoveData*>(move_data));
 
 	if (vehicle)
-		utils::get_vfunc<void(__thiscall*)(int, C_CSPlayer*, CMoveData*)>(vehicle, 5)(uintptr_t(vehicle), player, &move_data);
+		utils::get_vfunc<void(__thiscall*)(int, C_CSPlayer*, CMoveData*)>(vehicle, 5)(uintptr_t(vehicle), player, reinterpret_cast<CMoveData*>(move_data));
 	else
-		g_pMovement->ProcessMovement(player, &move_data);
+		g_pMovement->ProcessMovement(player, reinterpret_cast<CMoveData*>(move_data));
 
-	g_pPrediction->FinishMove(player, cmd, &move_data);
+	g_pPrediction->FinishMove(player, cmd, reinterpret_cast<CMoveData*>(move_data));
 	g_pMoveHelper->ProcessImpacts();
 
 	post_think(player);

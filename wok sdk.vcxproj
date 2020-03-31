@@ -203,6 +203,7 @@
     <ClInclude Include="sdk\other\checksum_md5.h" />
     <ClInclude Include="sdk\other\ClientClass.h" />
     <ClInclude Include="sdk\datatypes\CUtlVector.h" />
+    <ClInclude Include="sdk\datatypes\KeyValues.h" />
     <ClInclude Include="sdk\datatypes\matrix3x4_t.h" />
     <ClInclude Include="sdk\datatypes\QAngle.h" />
     <ClInclude Include="sdk\datatypes\Vector.h" />

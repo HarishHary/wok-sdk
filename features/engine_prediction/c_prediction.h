@@ -6,7 +6,7 @@ private:
 	float backup_curtime;
 	float backup_frametime;
 
-	CMoveData move_data;
+	void* move_data;
 	int* prediction_player;
 	int* prediction_random_seed;
 
