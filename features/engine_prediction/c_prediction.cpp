@@ -86,10 +86,9 @@ void c_prediction::run(C_CSPlayer* player, CUserCmd* cmd) {
 
 	g_pPrediction->SetupMove(player, cmd, g_pMoveHelper, reinterpret_cast<CMoveData*>(move_data));
 
-	if (vehicle)
-		utils::get_vfunc<void(__thiscall*)(int, C_CSPlayer*, CMoveData*)>(vehicle, 5)(uintptr_t(vehicle), player, reinterpret_cast<CMoveData*>(move_data));
-	else
-		g_pMovement->ProcessMovement(player, reinterpret_cast<CMoveData*>(move_data));
+	vehicle
+		? utils::get_vfunc<void(__thiscall*)(C_BaseEntity*, C_CSPlayer*, CMoveData*)>(vehicle, 5)(vehicle, player, reinterpret_cast<CMoveData*>(move_data))
+		: g_pMovement->ProcessMovement(player, reinterpret_cast<CMoveData*>(move_data));
 
 	g_pPrediction->FinishMove(player, cmd, reinterpret_cast<CMoveData*>(move_data));
 	g_pMoveHelper->ProcessImpacts();
