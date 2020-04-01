@@ -235,7 +235,7 @@ public:
 
 class C_CSPlayer : public C_BaseAnimating {
 public:
-	NETVAR(get_velocity_modifer(), float, "CCSPlayer->m_flVelocityModifier")
+	NETVAR(get_velocity_modifier(), float, "CCSPlayer->m_flVelocityModifier")
 	NETVAR(has_defuser(), bool, "CCSPlayer->m_bHasDefuser")
 	NETVAR(has_helmet(), bool, "CCSPlayer->m_bHasHelmet")
 	NETVAR(get_armor_value(), int, "CCSPlayer->m_ArmorValue")
