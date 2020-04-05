@@ -82,29 +82,31 @@ void c_render::draw_circle(Vector2D pos, int radius, Color color) {
 }
 
 void c_render::draw_rounded_filled_rect(Vector2D pos, Vector2D size, float radius, Color color) {
-	Vector2D add = { 0, 0 };
-	static Vertex_t vertices[24];
+	auto add = Vector2D(0, 0);
+	std::vector<Vertex_t> vertices;
+
 	for (int i = 0; i < 24; i++) {
-		float angle = (static_cast<float>(i) / -24) * 6.28f - (6.28f / 16.f);
+		auto angle = (static_cast<float>(i) / -24) * 6.28f - (6.28f / 16.f);
 
-		vertices[i].mPosition.x = radius + pos.x + add.x + (radius * sin(angle));
-		vertices[i].mPosition.y = size.y - radius + pos.y + add.y + (radius * cos(angle));
+		vertices.at(i).Init(Vector2D(radius + pos.x + add.x + radius * sin(angle), size.y - radius + pos.y + add.y + radius * cos(angle)));
 
-		if (i == 4) {
+		switch (i) {
+		case 4:
 			add.y = -size.y + (radius * 2);
-		}
-		else if (i == 10) {
+			break;
+		case 10:
 			add.x = size.x - (radius * 2);
-		}
-		else if (i == 16) {
+			break;
+		case 16:
 			add.y = 0;
-		}
-		else if (i == 22) {
+			break;
+		case 22: 
 			add.x = 0;
+			break;
 		}
 	}
-	g_pSurface->DrawSetColor(color);
-	g_pSurface->DrawTexturedPolygon(24, vertices);
+
+	draw_vertices(vertices.data(), vertices.size(), color);
 }
 
 void c_render::draw_filled_rect(Vector2D pos, Vector2D size, Color color) {
@@ -143,17 +145,11 @@ void c_render::draw_line(Vector2D start, Vector2D end, Color color) {
 }
 
 void c_render::draw_filled_circle(Vector2D pos, int radius, float points, Color color) {
-	static const auto texture_id = g_pSurface->CreateNewTextureID(true);
-	g_pSurface->DrawSetTexture(texture_id);
-	g_pSurface->DrawSetColor(color);
-
 	std::vector<Vertex_t> vertices;
-	float step = M_PI * 2.0f / points;
+	for (auto angle = 0.f; angle < M_PI * 2.f; angle += M_PI * 2.f / points)
+		vertices.push_back(Vertex_t(Vector2D(radius * cosf(angle) + pos.x, radius * sinf(angle) + pos.y)));
 
-	for (float a = 0; a < (M_PI * 2.0f); a += step)
-		vertices.push_back(Vertex_t(Vector2D(radius * cosf(a) + pos.x, radius * sinf(a) + pos.y)));
-
-	g_pSurface->DrawTexturedPolygon(points, vertices.data());
+	draw_vertices(vertices.data(), vertices.size(), color);
 }
 
 void c_render::draw_vertices(Vertex_t* vertices, int num, Color color) {
