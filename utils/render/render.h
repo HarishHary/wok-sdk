@@ -30,6 +30,5 @@ public:
 	Vector2D get_mouse_position();
 	bool mouse_in_region(Vector2D pos, Vector2D size);
 	void draw_box(Vector origin, Vector2D size, Color color);
-	void draw_filled_triangle(std::array<Vector2D, 3>points, Color color);
 };
 #define render c_render::instance()

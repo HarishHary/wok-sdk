@@ -183,20 +183,21 @@ bool c_render::mouse_in_region(Vector2D pos, Vector2D size) {
 }
 
 void c_render::draw_box(Vector origin, Vector2D size, Color color) {
-	float difw = size.x / 2.f;
-	float difh = size.y / 2.f;
+	auto c_w = size.x / 2.f;
+	auto c_h = size.y / 2.f;
+
 	Vector box_vectors[8] = {
-		Vector(origin.x - difw, origin.y - difh, origin.z - difw),
-		Vector(origin.x - difw, origin.y - difh, origin.z + difw),
-		Vector(origin.x + difw, origin.y - difh, origin.z + difw),
-		Vector(origin.x + difw, origin.y - difh, origin.z - difw),
-		Vector(origin.x - difw, origin.y + difh, origin.z - difw),
-		Vector(origin.x - difw, origin.y + difh, origin.z + difw),
-		Vector(origin.x + difw, origin.y + difh, origin.z + difw),
-		Vector(origin.x + difw, origin.y + difh, origin.z - difw),
+		Vector(origin.x - c_w, origin.y - c_h, origin.z - c_w),
+		Vector(origin.x - c_w, origin.y - c_h, origin.z + c_w),
+		Vector(origin.x + c_w, origin.y - c_h, origin.z + c_w),
+		Vector(origin.x + c_w, origin.y - c_h, origin.z - c_w),
+		Vector(origin.x - c_w, origin.y + c_h, origin.z - c_w),
+		Vector(origin.x - c_w, origin.y + c_h, origin.z + c_w),
+		Vector(origin.x + c_w, origin.y + c_h, origin.z + c_w),
+		Vector(origin.x + c_w, origin.y + c_h, origin.z - c_w),
 	};
 
-	static Vector2D vec0, vec1, vec2, vec3, vec4, vec5, vec6, vec7;
+	Vector2D vec0, vec1, vec2, vec3, vec4, vec5, vec6, vec7;
 	if (world_to_screen(box_vectors[0], vec0) 
 		&& world_to_screen(box_vectors[1], vec1) 
 		&& world_to_screen(box_vectors[2], vec2) 
@@ -240,9 +241,4 @@ void c_render::draw_box(Vector origin, Vector2D size, Color color) {
 		for (int i = 0; i < 12; i++)
 			draw_line(Vector2D(lines[i][0].x, lines[i][0].y), Vector2D(lines[i][1].x, lines[i][1].y), color);
 	}
-};
-
-void c_render::draw_filled_triangle(std::array<Vector2D, 3> points, Color color) {
-	std::array<Vertex_t, 3> vertices{ Vertex_t(points.at(0)), Vertex_t(points.at(1)), Vertex_t(points.at(2)) };
-	draw_vertices(vertices.data(), 3, color);
-};
+}
