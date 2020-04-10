@@ -3,7 +3,7 @@
 #include "hooks/hooks.h"
 
 BOOL WINAPI detach_wok() {
-	wok::detach;
+	wok::detach();
 	return TRUE;
 }
 
